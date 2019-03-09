@@ -18,10 +18,10 @@
     <br/>Another</li>
   </a> -->
   <a href = "">
-    <div <?php if($left_selected == "ANOTHER")
+    <div <?php if($left_selected == "STATUS")
     { echo 'class="menu-left-current-page"'; } ?>>
     <img src="./images/status_icon.png">
-    <br/>Another<br/></div>
+    <br/>Status<br/></div>
   </a>
 
   <a href = "piplanning_ceremonies.php">
