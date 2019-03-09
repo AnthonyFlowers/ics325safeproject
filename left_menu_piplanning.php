@@ -17,7 +17,7 @@
     <image  src="./images/status_icon.png">
     <br/>Another</li>
   </a> -->
-  <a href = "">
+  <a href = "piplanning_status.php">
     <div <?php if($left_selected == "STATUS")
     { echo 'class="menu-left-current-page"'; } ?>>
     <img src="./images/status_icon.png">
