@@ -59,7 +59,7 @@ function display_errors($errors=array()) {
 }
 
 //------------------------------------------------------------------------
-//	Used to convert a user-created URL into an embeddable URL.  
+//	Used to convert a user-created URL into an embeddable URL.
 //	Example: The typical URL pasted in from users will look like this: https://www.youtube.com/watch?v=CgSs3OvTnUQ
 // 			 But this will not work in an embedded iFrame and so must be converted to: https://www.youtube.com/embed/CgSs3OvTnUQ
 //
@@ -70,14 +70,14 @@ function mangleurl($url, $urltype = "") {
 	$urlchunks = parse_url(trim($url));
 
 	if (DEBUG_MODE == 'ONxx') {
-		echo 'DEBUG MODE: ' . dirname(__FILE__).'.mangleurl()<br/>'; 
+		echo 'DEBUG MODE: ' . dirname(__FILE__).'.mangleurl()<br/>';
 		echo var_dump($url) . '<br/>';
 		echo var_dump($urlchunks) . '<br/>';
 		echo '<br/>';
 		}
-	
+
 	$baseurl = $url;		// in case we don't need to do anything, send back what we were given
-	
+
 	if (strpos(strtolower($urlchunks['host']), 'youtube') > 0) {
 	    $baseurl = $urlchunks['scheme']."://".$urlchunks['host']."/embed/";
 		if (strtolower(substr($urlchunks['query'], 0, 2)) == "v=") {
@@ -86,7 +86,7 @@ function mangleurl($url, $urltype = "") {
 		else {
 			$youtubeid = $urlchunks['query'];
 		}
-		
+
 		return $baseurl.$youtubeid;
 	}
 
@@ -95,7 +95,7 @@ function mangleurl($url, $urltype = "") {
 			$baseurl  = $urlchunks['scheme']."://".$urlchunks['host']."/thumbnail?";
 			$baseurl .= $urlchunks['query'].'&sz=w400-h400';
 		}
-		else {		
+		else {
 			$baseurl = 'https://docs.google.com/document/d/' . substr($urlchunks['query'], 3) . '/edit';
 		}
 	}
@@ -114,11 +114,11 @@ function handlemultipleitems($item) {
 	$urlarray = explode(';',$item);
 
 	// if (DEBUG_MODE == 'ON') {
-		// echo 'DEBUG MODE: ' . dirname(__FILE__).'.handlemultipleitems()<br/>'; 
+		// echo 'DEBUG MODE: ' . dirname(__FILE__).'.handlemultipleitems()<br/>';
 		// echo var_dump($urlarray);
 		// echo '<br/>';
 		// }
-			
+
 	return $urlarray;
 }
 
@@ -133,18 +133,18 @@ function countitems($item) {
 	$ctr = 0;
 
 	 // if (DEBUG_MODE == 'ON') {
-		// echo 'DEBUG MODE: ' . dirname(__FILE__).'.countitems()<br/>'; 
+		// echo 'DEBUG MODE: ' . dirname(__FILE__).'.countitems()<br/>';
 		// echo var_dump($urlarray);
 		// echo count($urlarray);
 		// echo '<br/>';
 		// }
-			
+
 	foreach ($urlarray as $subitem) {
 		if (trim($subitem) != '') {
 			$ctr += 1;
 		}
 	}
-		
+
 	return $ctr;
 }
 
@@ -164,8 +164,8 @@ function countitems($item) {
 	if (!isset($_SESSION['logged_in'])) {return false;}
 	if (!isset($_SESSION['role'])) {return false;}
     return ($_SESSION['logged_in'] == true and $_SESSION['role'] == 'SUPER-ADMIN');
-  }  
-  
+  }
+
   function is_admin() {
     // Having a admin_id in the session serves a dual-purpose:
     // - Its presence indicates the admin is logged in.
@@ -174,8 +174,8 @@ function countitems($item) {
 	if (!isset($_SESSION['role'])) {return false;}
 	if (is_super_admin() == true) {return true;}
     return ($_SESSION['logged_in'] == true and $_SESSION['role'] == 'ADMIN');
-  }  
-  
+  }
+
   function is_user() {
     // Having a admin_id in the session serves a dual-purpose:
     // - Its presence indicates the admin is logged in.
@@ -188,7 +188,7 @@ function countitems($item) {
 		return true;
 		}
     return ($_SESSION['logged_in'] == true and $_SESSION['role'] == 'USER');
-  }  
+  }
 
 
 function show_flash_message() {
@@ -198,6 +198,145 @@ function show_flash_message() {
     return $message;
   }
   return NULL;
+}
+
+
+function are_values_set(){
+  if(!isset($_POST['baseURL'])){ return false; }
+  if(!isset($_POST['programIID'])){ return false; }
+  if(!isset($_POST['agileRT'])){ return false; }
+  if(!isset($_POST['teamNames'])){ return false; }
+  return true;
+}
+function generate_table($baseURL, $programIID, $agileRT, $teamNames){
+  $steps = 6; // Number of steps the program will go through
+  $table = ""; // Whole table html string
+  $table .= generate_thead($programIID, $steps); // Add table head to table
+  $table .= generate_rows($baseURL, $teamNames, $programIID, $programIID, $steps);
+  return $table; // Return html table
+}
+
+// Generate table header
+function generate_thead($programIID, $steps){
+  $tableHead = "<tr>";
+  $tableHead .= "<th>No.</th>"; // Add No. header
+  $tableHead .= "<th>Team Name</th>"; // Add Team Name header
+  // Add headers for each step
+  for ($step = 0; $step < $steps; $step +=1){
+    $tableHead .= "<th>";
+    $tableHead .= $programIID . "-" . ($step + 1);
+    $tableHead .= "</th>";
+  }
+  $tableHead .= "<th>" . $programIID . "-IP</th>";
+  $tableHead .= "</tr>";
+  return $tableHead; // Return table head
+}
+
+// Generate table rows with data
+function generate_rows($baseURL, $teamNames, $programIID, $iterationID, $steps){
+  $tableRows = ""; // Each data row will be stored here
+  $teamNameList = explode(",", $teamNames);
+  $rowNum = 1;
+  foreach ($teamNameList as $teamName){
+    $teamName = trim($teamName);
+    $tableRows .= generate_trow($baseURL, $rowNum, $teamName, $iterationID, $steps);
+    $rowNum++;
+  }
+  return $tableRows; // Return all rows for table
+}
+
+function generate_trow($baseURL, $number, $teamName, $iterationID, $steps){
+  $row = "<tr>"; // Store table row html element
+  $row .= "<td>" . $number . "</td>"; // Add number to this row
+  $row .= "<td>" . $teamName . "</td>"; // Add team name to this row
+  // Add each program increment to this row
+  for ($step = 0; $step < $steps; $step += 1){
+    $row .= "<td>" . generate_data_link($baseURL, $iterationID, $teamName, $step + 1);
+    $row .= "</td>";
+  }
+  // Add IP iteration to this row
+  $row .= "<td>" . generate_data_link($baseURL, $iterationID, $teamName, "IP");
+  $row .= "</td>";
+  $row .= "</td>";
+  return $row; // Returns single row for table
+}
+
+// Create each link for the generated table data
+// Format of each link: <a href="(url)" title="(url)" target="_blank">(IID)-(step)_(teamName)</a>
+function generate_data_link($baseURL, $iterationID, $teamName, $step){
+  $url = $baseURL . "?id=" . $iterationID . "-" . $step . "_" . $teamName;
+  $link = "<a href=\"" . $url . "\" title=\"" . $url;
+  $link .= "\" target=\"_blank\">" . $iterationID . "-" . $step . "</a>";
+  return $link;
+}
+
+// Echos each PIID option as an html option element
+// Format of each option: <option value="1902">PI-1902</option>
+function generate_pii_options($allPIIDs, $date){
+  $options = ""; // Store html elements
+  $currentPIIDFound = false;
+  while($pIId = $allPIIDs->fetch_assoc()){
+    // Check if the PIID has been added already
+    if ($pIId["PI_id"] != "" && strpos($options, $pIId["PI_id"]) == false){
+      $options .= "<option value=" . str_replace("PI-", "", $pIId["PI_id"]);
+      // Check if this program id was previously selected
+      if (isset($_POST['programIID']) && $_POST['programIID'] == str_replace("PI-", "", $pIId["PI_id"])) {
+        // echo $_POST['programIID'];
+        $options .= " selected";
+      }
+      $options .= ' class="pIIDs">';
+      $options .= $pIId["PI_id"];
+      $options .= "</option>";
+    }
+  }
+  // Loop to select the most recent program increment
+  // while($pIId = $allPIIDs->fetch_assoc()){
+  //   // Select the most recent program increment
+  //   if ($pIId['start_date'] > time() && time() < $pIId['end_date']){
+  //     // Assumes that PIIDs are in the format "PI-nnnn"
+  //     $options = substr_replace($options, " selected", strrpos($options, ('value="' . str_replace("PI-", "", $pIId["PI_id"]) . '"')), 0);
+  //     break;
+  //   }
+  // }
+
+  return $options;
+}
+
+// Echo each ART options as an html option element
+// Format: <option value="AT">AT</option>
+function generate_art_options($allARTs){
+  $options = ""; // Store html elements
+  while($art = $allARTs->fetch_assoc()){
+    // Check if the ART has been added already
+    if (strpos($options, $art["type"]) == false && $art["type"] != ""){
+      $options .= "<option value=" . $art["type"];
+      if (isset($_POST['agileRT']) && $_POST['agileRT'] == $art['type']){
+        $options .= " selected";
+      }
+      $options .= ">";
+      $options .= $art["type"];
+      $options .= "</option>";
+    }
+  }
+  return $options;
+}
+
+function findCurrentIncrement($pIID, $date){
+
+}
+
+function set_team_names($selectedTeams){
+  $teams = ""; // Store team names as comma separated list
+  while ($team = $selectedTeams->fetch_assoc()) {
+    if ($teams != ""){ // Add comma between team names
+      $teams .= ", ";
+    }
+    // Check if team has been added already
+    if (strpos($teams, $team['team_name']) == false){
+      $teams .= $team['team_name'];
+    }
+  }
+  return $teams;
 }
 
 ?>
