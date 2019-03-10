@@ -235,6 +235,7 @@ function generate_thead($programIID, $steps){
 // Generate table rows with data
 function generate_rows($baseURL, $teamNames, $programIID, $iterationID, $steps){
   $tableRows = ""; // Each data row will be stored here
+
   $teamNameList = explode(",", $teamNames);
   $rowNum = 1;
   foreach ($teamNameList as $teamName){
@@ -272,7 +273,7 @@ function generate_data_link($baseURL, $iterationID, $teamName, $step){
 
 // Echos each PIID option as an html option element
 // Format of each option: <option value="1902">PI-1902</option>
-function generate_pii_options($allPIIDs, $date){
+function generate_pii_options($allPIIDs){
   $options = ""; // Store html elements
   $currentPIIDFound = false;
   while($pIId = $allPIIDs->fetch_assoc()){
@@ -289,40 +290,27 @@ function generate_pii_options($allPIIDs, $date){
       $options .= "</option>";
     }
   }
-  // Loop to select the most recent program increment
-  // while($pIId = $allPIIDs->fetch_assoc()){
-  //   // Select the most recent program increment
-  //   if ($pIId['start_date'] > time() && time() < $pIId['end_date']){
-  //     // Assumes that PIIDs are in the format "PI-nnnn"
-  //     $options = substr_replace($options, " selected", strrpos($options, ('value="' . str_replace("PI-", "", $pIId["PI_id"]) . '"')), 0);
-  //     break;
-  //   }
-  // }
 
   return $options;
 }
 
 // Echo each ART options as an html option element
-// Format: <option value="AT">AT</option>
+// Format for each option: <option value="ST-300">ST-300</option>
 function generate_art_options($allARTs){
   $options = ""; // Store html elements
   while($art = $allARTs->fetch_assoc()){
     // Check if the ART has been added already
-    if (strpos($options, $art["type"]) == false && $art["type"] != ""){
-      $options .= "<option value=" . $art["type"];
-      if (isset($_POST['agileRT']) && $_POST['agileRT'] == $art['type']){
+    if (strpos($options, $art["parent_name"]) == false){
+      $options .= "<option value=" . $art["parent_name"];
+      if (isset($_POST['agileRT']) && $_POST['agileRT'] == $art['parent_name']){
         $options .= " selected";
       }
       $options .= ">";
-      $options .= $art["type"];
+      $options .= $art["parent_name"];
       $options .= "</option>";
     }
   }
   return $options;
-}
-
-function findCurrentIncrement($pIID, $date){
-
 }
 
 function set_team_names($selectedTeams){
@@ -333,10 +321,20 @@ function set_team_names($selectedTeams){
     }
     // Check if team has been added already
     if (strpos($teams, $team['team_name']) == false){
-      $teams .= $team['team_name'];
+      $teams .= trim($team['team_name']);
     }
   }
   return $teams;
+}
+
+// Set initial values of the pii summary table
+function initialize_pii_summary(){
+
+}
+
+// Set preferences
+function set_preferences(){
+
 }
 
 ?>
