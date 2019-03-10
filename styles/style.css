@@ -1,0 +1,50 @@
+* {
+  font-family: sans-serif;
+}
+
+#inputForm{
+
+}
+
+input.userInput{
+  width: 250px;
+  border-radius: 5px;
+  padding: 5px;
+  border-color: darkblue;
+  border-style: solid;
+  border-width: thin;
+}
+
+button, #btnGenPHP{
+  font-size: 25px;
+  width: 230px;
+  border-radius: 8px;
+  border-color: blue;
+  background-color: cyan;
+}
+
+#teamNames{
+  width: 400px;
+}
+
+#dataTable th{
+  background-color: #98cc20;
+}
+
+#dataTable a{
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#dataTable tr{
+  padding: 5px;
+}
+
+#dataTable tr:nth-child(even){
+  background-color: #e7e77e;
+}
+
+#dataTable tr:nth-child(odd){
+  background-color: #f3f3be;
+}
