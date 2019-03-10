@@ -12,11 +12,6 @@
   	<img src="./images/piplanning_cadence.png">
   	<br/>Cadence<br/></div>
   </a>
-  <!-- <a href="">
-    <li <?php if($nav_select == "ORG"){ echo 'class="current-page"'; } ?>>
-    <image  src="./images/status_icon.png">
-    <br/>Another</li>
-  </a> -->
   <a href = "piplanning_status.php">
     <div <?php if($left_selected == "STATUS")
     { echo 'class="menu-left-current-page"'; } ?>>
