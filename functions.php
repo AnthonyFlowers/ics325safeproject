@@ -205,7 +205,7 @@ function are_values_set(){
   if(!isset($_POST['baseURL'])){ return false; }
   if(!isset($_POST['programIID'])){ return false; }
   if(!isset($_POST['agileRT'])){ return false; }
-  if(!isset($_POST['teamNames'])){ return false; }
+  // if(!isset($_POST['teamNames'])){ return false; }
   return true;
 }
 function generate_table($baseURL, $programIID, $agileRT, $teamNames){
