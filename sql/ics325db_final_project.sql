@@ -126,7 +126,7 @@ CREATE TABLE `membership` (
 CREATE TABLE `preferences` (
   `id` int(2) NOT NULL,
   `name` varchar(40) NOT NULL,
-  `value` varchar(10) NOT NULL,
+  `value` varchar(50) NOT NULL,
   `comments` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='for storing model and UI preferences';
 
