@@ -200,15 +200,8 @@ function show_flash_message() {
   return NULL;
 }
 
-
-function are_values_set(){
-  if(!isset($_POST['baseURL'])){ return false; }
-  if(!isset($_POST['programIID'])){ return false; }
-  if(!isset($_POST['agileRT'])){ return false; }
-  // if(!isset($_POST['teamNames'])){ return false; }
-  return true;
-}
 function generate_table($baseURL, $programIID, $agileRT, $teamNames){
+  $programIID = str_replace("PI-", "", $programIID);
   $steps = 6; // Number of steps the program will go through
   $table = ""; // Whole table html string
   $table .= generate_thead($programIID, $steps); // Add table head to table
@@ -265,6 +258,8 @@ function generate_trow($baseURL, $number, $teamName, $iterationID, $steps){
 // Create each link for the generated table data
 // Format of each link: <a href="(url)" title="(url)" target="_blank">(IID)-(step)_(teamName)</a>
 function generate_data_link($baseURL, $iterationID, $teamName, $step){
+  // Replace spaces with underscores and trim whitespace around team name
+  $teamName = str_replace(" ", "_", trim($teamName));
   $url = $baseURL . "?id=" . $iterationID . "-" . $step . "_" . $teamName;
   $link = "<a href=\"" . $url . "\" title=\"" . $url;
   $link .= "\" target=\"_blank\">" . $iterationID . "-" . $step . "</a>";
@@ -278,11 +273,13 @@ function generate_pii_options($allPIIDs){
   $currentPIIDFound = false;
   while($pIId = $allPIIDs->fetch_assoc()){
     // Check if the PIID has been added already
-    if ($pIId["PI_id"] != "" && strpos($options, $pIId["PI_id"]) == false){
+    if ($pIId["PI_id"] != "" && !strpos($options, $pIId["PI_id"])){
       $options .= "<option value=" . str_replace("PI-", "", $pIId["PI_id"]);
       // Check if this program id was previously selected
       if (isset($_POST['programIID']) && $_POST['programIID'] == str_replace("PI-", "", $pIId["PI_id"])) {
         // echo $_POST['programIID'];
+        $options .= " selected";
+      } elseif(isset($GLOBALS['curPIID']) && $GLOBALS['curPIID'] == $pIId['PI_id']){
         $options .= " selected";
       }
       $options .= ' class="pIIDs">';
@@ -290,7 +287,6 @@ function generate_pii_options($allPIIDs){
       $options .= "</option>";
     }
   }
-
   return $options;
 }
 
@@ -302,7 +298,7 @@ function generate_art_options($allARTs){
     // Check if the ART has been added already
     if (strpos($options, $art["parent_name"]) == false){
       $options .= "<option value=" . $art["parent_name"];
-      if (isset($_POST['agileRT']) && $_POST['agileRT'] == $art['parent_name']){
+      if (is_selected_art_option($art)){
         $options .= " selected";
       }
       $options .= ">";
@@ -313,6 +309,20 @@ function generate_art_options($allARTs){
   return $options;
 }
 
+// Checks if the art option should be selected
+function is_selected_art_option($art){
+  if (isset($_POST['agileRT']) && $_POST['agileRT'] == $art['parent_name']){
+    return true;
+  } elseif(isset($_COOKIE['AGILE_RELEASE_TRAIN']) & !isset($_POST['agileRT']) && $art['parent_name'] == $_COOKIE['AGILE_RELEASE_TRAIN']){
+    return true;
+  } elseif(isset($GLOBALS['agileRTg']) && $GLOBALS['agileRTg'] == $art['parent_name']){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// Returns a comma separated list of team names from a db query
 function set_team_names($selectedTeams){
   $teams = ""; // Store team names as comma separated list
   while ($team = $selectedTeams->fetch_assoc()) {
@@ -327,14 +337,39 @@ function set_team_names($selectedTeams){
   return $teams;
 }
 
-// Set initial values of the pii summary table
-function initialize_pii_summary(){
-
+// Sets the art preference in the database
+function set_art_preference($newPref){
+  global $db;
+  // PHP prepared statement
+  $queryUpdatePref = $db->prepare("UPDATE `preferences` SET value=(?) WHERE name='DEFAULT_ART'");
+  $queryUpdatePref->bind_param("s", $newPref);
+  $queryUpdatePref->execute();
 }
 
-// Set preferences
-function set_preferences(){
+// Checks if the art preference is set in the database
+function is_art_preference_set(){
+  global $db;
+  $preference = mysqli_query($db, "SELECT * FROM `preferences` WHERE name='DEFAULT_ART'");
+  if($preference->num_rows == 0){
+    return false;
+  } else { return true; }
+}
 
+// Returns the art preference from the database
+function get_art_preference(){
+  global $db;
+  $prefQuery = "SELECT * FROM `preferences` WHERE name='DEFAULT_ART'";
+  $prefResults = mysqli_query($db, $prefQuery);
+  $artPref = $prefResults->fetch_assoc();
+  return $artPref['value'];
+}
+
+// Return the base url from the database
+function get_base_url(){
+  global $db;
+  $baseUrlQuery = "SELECT * FROM `preferences` WHERE name='BASE_URL'";
+  $baseUrlResults = mysqli_query($db, $baseUrlQuery);
+  return $baseUrlResults->fetch_assoc()['value'];
 }
 
 ?>
