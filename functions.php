@@ -350,9 +350,9 @@ function set_art_preference($newPref){
 function is_art_preference_set(){
   global $db;
   $preference = mysqli_query($db, "SELECT * FROM `preferences` WHERE name='DEFAULT_ART'");
-  if($preference->num_rows == 0){
-    return false;
-  } else { return true; }
+  if($preference->num_rows > 0 & mysqli_fetch_assoc($preference)['value'] != ''){
+    return true;
+  } else { return false; }
 }
 
 // Returns the art preference from the database
