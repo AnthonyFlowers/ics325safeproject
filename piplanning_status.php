@@ -42,9 +42,11 @@
     $queryTeamNames->execute(); // Execute statement
     $queryTeamResults = $queryTeamNames->get_result();
     $GLOBALS['selectedTeams'] = set_team_names($queryTeamResults);
-  } else { // Default to ART-400 *Fix to select first alphabetical parent_name*
-    $sqlQuery = "SELECT * FROM `trains_and_teams` WHERE parent_name='ART-400'";
-    $GLOBALS['selectedTeams'] = set_team_names(mysqli_query($db, $sqlQuery));
+  } else { // Default to select first alphabetical parent_name
+    $sqlQuery1 = "SELECT * FROM `trains_and_teams` ORDER by parent_name ASC";
+    $result = mysqli_fetch_assoc(mysqli_query($db, $sqlQuery1))['parent_name'];
+    $sqlQuery2 = "SELECT * FROM `trains_and_teams` WHERE parent_name='" . $result . "'";
+    $GLOBALS['selectedTeams'] = set_team_names(mysqli_query($db, $sqlQuery2));
   }
   global $selectedTeams;
 
