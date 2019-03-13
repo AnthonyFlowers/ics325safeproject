@@ -64,7 +64,7 @@
           <?php echo generate_art_options($allARTs); ?>
         </select><br>
         Names of the Teams:
-        <input type="text" id="teamNames" name="teamNames" class="userInput" value="<?php echo $selectedTeams ?>" readonly="readonly"><br>
+        <input type="text" id="teamNames" name="teamNames" class="userInput" style="width: 50%;" value="<?php echo $selectedTeams ?>" readonly="readonly"><br>
         <button id="btnGenJS" type="button">Generate JS</button><input type="submit" id="btnGenPHP"  value="Generate PHP">
       </form>
 
