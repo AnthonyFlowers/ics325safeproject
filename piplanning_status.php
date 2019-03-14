@@ -43,13 +43,11 @@
     $queryTeamResults = $queryTeamNames->get_result();
     $GLOBALS['selectedTeams'] = set_team_names($queryTeamResults);
   } else { // Default to select first alphabetical parent_name
-    $sqlQuery1 = "SELECT * FROM `trains_and_teams` ORDER by parent_name ASC";
-    $result = mysqli_fetch_assoc(mysqli_query($db, $sqlQuery1))['parent_name'];
-    $sqlQuery2 = "SELECT * FROM `trains_and_teams` WHERE parent_name='" . $result . "'";
+    $firstParentName = $GLOBALS['defaultParentName'];
+    $sqlQuery2 = "SELECT * FROM `trains_and_teams` WHERE parent_name='" . $firstParentName . "'";
     $GLOBALS['selectedTeams'] = set_team_names(mysqli_query($db, $sqlQuery2));
   }
   global $selectedTeams;
-
   ?>
 
 <div class="right-content">
