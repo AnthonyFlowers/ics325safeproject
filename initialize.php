@@ -44,7 +44,9 @@
   } elseif(is_art_preference_set()){
     $GLOBALS['agileRTg'] = get_art_preference();
   } else { // Default to first alphabetical agileRT
-    $GLOBALS['agileRTg'] = "ART-400"; // *Pull from database
+    $sqlQuery = "SELECT * FROM `trains_and_teams` ORDER by parent_name ASC";
+    $GLOBALS['defaultParentName'] = mysqli_fetch_assoc(mysqli_query($db, $sqlQuery))['parent_name'];
+    $GLOBALS['agileRTg'] = $GLOBALS['defaultParentName'];
   }
 
 ?>
