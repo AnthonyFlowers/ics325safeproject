@@ -1,7 +1,7 @@
 <?php
 
   $nav_selected = "PIPLANNING";
-  $left_buttons = "YES"; 
+  $left_buttons = "YES";
   $left_selected = "CALCULATE";
 
   include("./nav.php");
@@ -9,15 +9,16 @@
 
   date_default_timezone_set('America/Chicago');
 
-  $sql = "SELECT program_increment, iteration, sequence
+  $sql = "SELECT PI_id, iteration_id, sequence
           FROM `cadence`
           WHERE start_date <= '" . date("Y-m-d") . "'
           AND end_date >= '". date("Y-m-d") . "';";
+  // echo $sql;
   $result = $db->query($sql);
   if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    $program_increment = $row["program_increment"];
-    $iteration = $row["iteration"];
+    $program_increment = $row["PI_id"];
+    $iteration = $row["iteration_id"];
     $sequence = $row["sequence"];
     $result->close();
   } else {
@@ -156,7 +157,6 @@
   if (!isset($_POST['select-team']) && !isset($_POST['current-team-selected'])) {
     $sql = "SELECT team_id FROM `capacity` where program_increment='".$program_increment."' LIMIT 1;";
     $result = $db->query($sql);
-
     if ($result->num_rows > 0) {
 
         $row = $result->fetch_assoc();
@@ -164,7 +164,7 @@
     }
   }
 
-  $sql5 = "SELECT * FROM `cadence` WHERE program_increment='".$program_increment."';";
+  $sql5 = "SELECT * FROM `cadence` WHERE PI_id='".$program_increment."';";
   $result5 = $db->query($sql5);
   if ($result5->num_rows > 0) {
       $row5 = $result5->fetch_assoc();
