@@ -233,7 +233,7 @@
       <!-- Table 6 -->
       <?php echo generate_capacity_table($selected_team, $program_increment, "-6"); ?>
       <!-- Table 7 -->
-      <!-- <?php echo generate_capacity_table($selected_team, $program_increment, "-IP"); ?> -->
+      <!-- <?php // echo generate_capacity_table($selected_team, $program_increment, "-IP"); ?> -->
 
       <div id="capacity-footnote">
         Note 1: Closed Iterations will NOT be shown.  The capacity cannot be changed for such iterations.  Show only the active iterations.<br/>
