@@ -442,11 +442,11 @@ function generate_capacity_table($selected_team, $program_increment, $iteration)
   $table ='
   <table width="95%">
     <tr>
-      <td width="25%" style="vertical-align: top; font-weight: bold; color: #01B0F1; line-height: 130%; font-size: 18px;">
+      <td width="25%" style="vertical-align: bottom; font-weight: bold; color: #01B0F1; line-height: 130%; font-size: 18px;">
         Iteration (I): &emsp; <br/>
       </td>
-      <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
-      ' . "&nbsp;".$iteration."<br/>" . '
+      <td  style="vertical-align: bottom; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
+      ' . $iteration . '<br/>
       </td>
       <td width="50%"  style="font-weight: bold;">
         <div style="float: right; margin-right: 10px; text-align: center; font-size: 12px;">
