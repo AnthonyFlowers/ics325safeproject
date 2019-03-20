@@ -154,11 +154,11 @@
     }
 
   }
+  // Set default selected_team
   if (!isset($_POST['select-team']) && !isset($_POST['current-team-selected'])) {
     $sql = "SELECT team_id FROM `capacity` where program_increment='".$program_increment."' LIMIT 1;";
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
-
         $row = $result->fetch_assoc();
         $selected_team = $row["team_id"];
     }
@@ -317,7 +317,7 @@
 
           $sql = "SELECT last_name, first_name, role FROM `membership`
                   NATURAL JOIN `employees`
-                  WHERE team_id='".$selected_team."';";
+                  WHERE team_name='".$selected_team."';";
 
           $result = $db->query($sql);
 
