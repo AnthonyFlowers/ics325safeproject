@@ -163,6 +163,7 @@
             <form method="post" action="#">
             Team: &emsp; <br/>
             Program Increment (PI): &emsp; <br/>
+              <input type="submit" id="capacity-button-blue" name="submit0" value="Generate">
           </td>
           <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
             <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
