@@ -271,9 +271,9 @@
           var rownum = $("input[name='rownum[]']")
               .map(function(){return $(this).val();}).get();
 
-          // var overhead = "<?php echo $overhead_percentage ?>";
-          var duration = "<?php echo $duration ?>";
-          var value = "<?php echo $valueForJS ?>";
+          // var overhead = "<?php // echo $overhead_percentage ?>";
+          // var duration = "<?php // echo $duration ?>";
+          // var value = "<?php // echo $valueForJS ?>";
           var totalcap_old = "<?php echo $totalcapacity ?>";
           var icap_old = "<?php echo $icapacity ?>";
           var icap = 0;
