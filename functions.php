@@ -416,75 +416,39 @@ function generate_capacity_table($selected_team, $program_increment, $iteration)
       $row6 = $result6->fetch_assoc();
       $overhead_percentage = $row6["value"];
   }
-  // Start of table
+  $sql = "SELECT * FROM `capacity` WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."'";
+  $result = $db->query($sql);
+
+  if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+
+      if (isset($teamcapacity)  && !isset($_POST['restore'])  && !isset($_POST['submit0'])){
+        $icapacity = array_sum($teamcapacity);
+        $totalcapacity = $row["total"] + ($icapacity - $row["iteration_".substr($iteration, -1)]);
+      } else {
+        $icapacity = $row["iteration_".substr($iteration, -1)];
+        $totalcapacity = $row["total"];
+      }
+  } else {
+    if (isset($teamcapacity)  && !isset($_POST['restore'])  && !isset($_POST['submit0'])){
+      $icapacity = array_sum($teamcapacity);
+      $totalcapacity = ($default_total*6) + ($icapacity - $default_total);
+    } else {
+      $icapacity = $default_total;
+      $totalcapacity = $default_total*6;
+    }
+  }
+  // Start of table creation
   $table ='
   <table width="95%">
     <tr>
       <td width="25%" style="vertical-align: top; font-weight: bold; color: #01B0F1; line-height: 130%; font-size: 18px;">
-        <form method="post" action="#">
-        Team: &emsp; <br/>
-        Program Increment (PI): &emsp; <br/>
         Iteration (I): &emsp; <br/>
-        No. of Days in the Iteration: &emsp; <br/>
-        Overhead Percentage: &emsp; <br/>
       </td>
       <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
-        <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
-        ';
-          //$sql = "SELECT team_id, team_name FROM `capacity` where program_increment='".$program_increment."';";
-          $sql = "SELECT team_id, parent_name FROM `trains_and_teams` where type='AT';";
-          $result = $db->query($sql);
-
-          if ($result->num_rows > 0) {
-
-              while ($row = $result->fetch_assoc()) {
-                if ( trim($selected_team) == trim($row["team_id"]) ) {
-                  $table .= '<option value="'.$row["team_id"].'" selected>('.$row["team_id"].': '.$row["parent_name"].')</option>';
-                } else {
-                  $table .= '<option value="'.$row["team_id"].'">('.$row["team_id"].': '.$row["parent_name"].')</option>';
-                }
-
-              }
-          }
-      $table .='
-        </select>
-      </form><br/>
-      ';
-        $table .= "&nbsp;".$program_increment."<br/>";
-        $table .= "&nbsp;".$iteration."<br/>";
-        $table .= "&nbsp;".$duration."<br/>";
-        $table .= "&nbsp;".$overhead_percentage."%<br/>";
-    $table .='
+      ' . "&nbsp;".$iteration."<br/>" . '
       </td>
       <td width="50%"  style="font-weight: bold;">
-    ';
-        $sql = "SELECT * FROM `capacity` WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."'";
-        $result = $db->query($sql);
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-
-            if (isset($teamcapacity)  && !isset($_POST['restore'])  && !isset($_POST['submit0'])){
-              $icapacity = array_sum($teamcapacity);
-              $totalcapacity = $row["total"] + ($icapacity - $row["iteration_".substr($iteration, -1)]);
-            } else {
-              $icapacity = $row["iteration_".substr($iteration, -1)];
-              $totalcapacity = $row["total"];
-            }
-        } else {
-          if (isset($teamcapacity)  && !isset($_POST['restore'])  && !isset($_POST['submit0'])){
-            $icapacity = array_sum($teamcapacity);
-            $totalcapacity = ($default_total*6) + ($icapacity - $default_total);
-          } else {
-            $icapacity = $default_total;
-            $totalcapacity = $default_total*6;
-          }
-        }
-         $table .='
-         <div style="float: right; margin-right: 10px; text-align: center; font-size: 12px;">
-           <div id="capacity-calc-bignum" name="totalcap">' . $totalcapacity . '</div>
-           Total Capacity for the Program Increment
-         </div>
         <div style="float: right; margin-right: 10px; text-align: center; font-size: 12px;">
           <div id="capacity-calc-bignum" name="icap">' . $icapacity . '</div>
           Total Capacity for this Iteration

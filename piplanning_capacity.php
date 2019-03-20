@@ -151,15 +151,74 @@
     }
   }
 
-
-
-
   ?>
 
 <div class="right-content">
     <div class="container">
 
       <h3 style=" color: #01B0F1; font-weight: bold;">Capacity Calculations for the Agile Team</h3>
+      <table width="95%">
+        <tr>
+          <td width="25%" style="vertical-align: top; font-weight: bold; color: #01B0F1; line-height: 130%; font-size: 18px;">
+            <form method="post" action="#">
+            Team: &emsp; <br/>
+            Program Increment (PI): &emsp; <br/>
+          </td>
+          <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
+            <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
+            <?php
+              //$sql = "SELECT team_id, team_name FROM `capacity` where program_increment='".$program_increment."';";
+              $sql = "SELECT team_id, parent_name FROM `trains_and_teams` where type='AT';";
+              $result = $db->query($sql);
+
+              if ($result->num_rows > 0) {
+
+                  while ($row = $result->fetch_assoc()) {
+                    if ( trim($selected_team) == trim($row["team_id"]) ) {
+                      echo '<option value="'.$row["team_id"].'" selected>('.$row["team_id"].': '.$row["parent_name"].')</option>';
+                    } else {
+                      echo '<option value="'.$row["team_id"].'">('.$row["team_id"].': '.$row["parent_name"].')</option>';
+                    }
+
+                  }
+              }
+              ?>
+            </select>
+          </form><br/>
+          <?php
+            echo "&nbsp;".$program_increment."<br/>";
+          ?>
+          </td>
+          <td width="50%"  style="font-weight: bold;">
+            <?php
+              $sql = "SELECT * FROM `capacity` WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."'";
+              $result = $db->query($sql);
+              if ($result->num_rows > 0) {
+                  $row = $result->fetch_assoc();
+                  if (isset($teamcapacity)  && !isset($_POST['restore'])  && !isset($_POST['submit0'])){
+                    $icapacity = array_sum($teamcapacity);
+                    $totalcapacity = $row["total"] + ($icapacity - $row["iteration_".substr($iteration, -1)]);
+                  } else {
+                    $icapacity = $row["iteration_".substr($iteration, -1)];
+                    $totalcapacity = $row["total"];
+                  }
+              } else {
+                if (isset($teamcapacity)  && !isset($_POST['restore'])  && !isset($_POST['submit0'])){
+                  $icapacity = array_sum($teamcapacity);
+                  $totalcapacity = ($default_total*6) + ($icapacity - $default_total);
+                } else {
+                  $icapacity = $default_total;
+                  $totalcapacity = $default_total*6;
+                }
+              }
+            ?>
+             <div style="float: right; margin-right: 10px; text-align: center; font-size: 12px;">
+               <div id="capacity-calc-bignum" name="totalcap"> <?php echo $totalcapacity  ?></div>
+               Total Capacity for the Program Increment
+             </div>
+          </td>
+        </tr>
+      </table>
 
       <!-- Table 1 -->
       <?php echo generate_capacity_table($selected_team, $program_increment, "-1"); ?>
