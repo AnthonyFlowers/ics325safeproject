@@ -292,8 +292,9 @@
           <?php
 
           $sql = "SELECT last_name, first_name, role FROM `membership`
-                  NATURAL JOIN `employees`
-                  WHERE team_name='".$selected_team."';";
+                  JOIN `employees`
+                  WHERE employee_name LIKE CONCAT_WS(' ',last_name, first_name)
+                  AND team_name='".$selected_team."';";
           $result = $db->query($sql);
           if ($result->num_rows > 0) {
               // output data of each
