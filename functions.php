@@ -374,7 +374,7 @@ function get_base_url(){
 
 // Generate capacity table
 function generate_capacity_table($selected_team, $program_increment, $iteration){
-  $iteration = 'I-' . $program_increment . $iteration;
+  $iteration = 'I-' . str_replace('PI-', '', $program_increment) . $iteration;
   global $db;
   $sql5 = "SELECT * FROM `cadence` WHERE PI_id='".$program_increment."';";
   $result5 = $db->query($sql5);
