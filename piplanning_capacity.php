@@ -79,20 +79,18 @@
         $iteration = $row["iteration"];
         $sequence = $row["sequence"];
         $result->close();
+      }
     }
-  }
     $sql = "SELECT * FROM `capacity` where team_id='".$selected_team."' AND program_increment='".$program_increment."';";
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
     } else {
       $default_data = true;
       $default_total = 0;
-
       $sql = "SELECT * FROM `membership` where team_id='".$selected_team."';";
       $result = $db->query($sql);
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-
           if ($row["role"] == "Scrum Master (SM)") {
             $velType = "SCRUM_MASTER_ALLOCATION";
           } else if ($row["role"] == "Product Owner (PO)") {
@@ -100,25 +98,20 @@
           } else  {
             $velType = "AGILE_TEAM_MEMBER_ALLOCATION";
           }
-
           $sql2 = "SELECT * FROM `preferences` WHERE name='".$velType."';";
           $result2 = $db->query($sql2);
 
           if ($result2->num_rows > 0) {
-
               $row2 = $result2->fetch_assoc();
               $default_total += $row2["value"];
-
           }
-
+        }
       }
-    }
     }
   }
 
   if (isset($_POST['select-team'])) {
     $selected_team = $_POST['select-team'];
-
     $sql = "SELECT * FROM `capacity` where team_id='".$selected_team."' AND program_increment='".$program_increment."';";
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
@@ -130,7 +123,6 @@
       $result = $db->query($sql);
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-
           if ($row["role"] == "Scrum Master (SM)") {
             $velType = "SCRUM_MASTER_ALLOCATION";
           } else if ($row["role"] == "Product Owner (PO)") {
@@ -138,19 +130,14 @@
           } else  {
             $velType = "AGILE_TEAM_MEMBER_ALLOCATION";
           }
-
           $sql2 = "SELECT * FROM `preferences` WHERE name='".$velType."';";
           $result2 = $db->query($sql2);
-
           if ($result2->num_rows > 0) {
-
               $row2 = $result2->fetch_assoc();
               $default_total += $row2["value"];
-
           }
-
+        }
       }
-    }
     }
 
   }
@@ -235,7 +222,7 @@
                   while ($row = $result->fetch_assoc()) {
                     if ( trim($selected_team) == trim($row["team_id"]) ) {
                       echo '<option value="'.$row["team_id"].'" selected>('.$row["team_id"].': '.$row["parent_name"].')</option>';
-                    }else{
+                    } else {
                       echo '<option value="'.$row["team_id"].'">('.$row["team_id"].': '.$row["parent_name"].')</option>';
                     }
 
@@ -262,20 +249,18 @@
                 if (isset($teamcapacity)  && !isset($_POST['restore'])  && !isset($_POST['submit0'])){
                   $icapacity = array_sum($teamcapacity);
                   $totalcapacity = $row["total"] + ($icapacity - $row["iteration_".substr($iteration, -1)]);
-                }else{
+                } else {
                   $icapacity = $row["iteration_".substr($iteration, -1)];
                   $totalcapacity = $row["total"];
                 }
-
             } else {
               if (isset($teamcapacity)  && !isset($_POST['restore'])  && !isset($_POST['submit0'])){
                 $icapacity = array_sum($teamcapacity);
                 $totalcapacity = ($default_total*6) + ($icapacity - $default_total);
-              }else{
+              } else {
                 $icapacity = $default_total;
                 $totalcapacity = $default_total*6;
               }
-
             }
              ?>
              <div style="float: right; margin-right: 10px; text-align: center; font-size: 12px;">
@@ -290,63 +275,45 @@
         </tr>
         <tr>
           <td colspan="3">
-
         <form method="post" action="#" id="maincap">
       <table id="info" cellpadding="2px" cellspacing="0" border="0" class="capacity-table"
              width="100%" style="width: 100%; clear: both; font-size: 15px; margin: 8px 0 15px 0">
-
           <thead>
-
           <tr id="capacity-table-first-row">
-
               <th id="capacity-table-td">Last Name</th>
               <th id="capacity-table-td">First Name</th>
               <th id="capacity-table-td">Role</th>
               <th id="capacity-table-td">% Velocity Available</th>
               <th id="capacity-table-td">Days Off <br/><p style="font-size: 9px;">(Vacation / Holidays / Sick Days)</p></th>
               <th id="capacity-table-td">Story Points</th>
-
           </tr>
-
           </thead>
-
           <tbody>
-
-
           <?php
 
           $sql = "SELECT last_name, first_name, role FROM `membership`
                   NATURAL JOIN `employees`
                   WHERE team_name='".$selected_team."';";
-
           $result = $db->query($sql);
-
-
           if ($result->num_rows > 0) {
-
               // output data of each
               $rownum = 0;
               while ($row = $result->fetch_assoc()) {
-
-                if ($row["role"] == "Scrum Master (SM)") {
+                if (strpos($row["role"], "SM") !== false) {
                   $velocityType = "SCRUM_MASTER_ALLOCATION";
-                } else if ($row["role"] == "Product Owner (PO)") {
+                } else if (strpos($row["role"], "PO") !== false) {
                   $velocityType = "PRODUCT_OWNER_ALLOCATION";
                 } else  {
                   $velocityType = "AGILE_TEAM_MEMBER_ALLOCATION";
                 }
-
                 $sql2 = "SELECT * FROM `preferences` WHERE name='".$velocityType."';";
                 $result2 = $db->query($sql2);
-
                 if ($result2->num_rows > 0) {
-
                     $row2 = $result2->fetch_assoc();
-
                 }
                 if (isset($teamcapacity[$rownum]) && !isset($_POST['restore']) && isset($_POST['submit0'])){
                   $storypts = $teamcapacity[$rownum];
-                }else{
+                } else {
                   $storypts = round(($duration-0)*((100-$overhead_percentage)/100)*($row2["value"]/100));
                 }
                 $valueForJS = $row2["value"];
