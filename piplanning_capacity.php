@@ -31,7 +31,7 @@
           FROM cadence
           WHERE start_date <= '" . date("Y-m-d") . "'
           OR end_date >= '" . date("Y-m-d") . "'
-          GROUP BY program_increment
+          GROUP BY PI_id
         ) as PI
         WHERE PI.start_date <= '" . date("Y-m-d") . "'
         AND PI.end_date >= '" . date("Y-m-d") . "';";
