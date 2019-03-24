@@ -21,7 +21,7 @@
         <title>SAFe@ICS325 Explorer</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
-        <link rel="stylesheet" href="./mainStyleSheet.css">
+        <link rel="stylesheet" href="styles/mainStyleSheet.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="scripts/script.js"></script>
         <!-- <link rel="stylesheet" type="text/css" href="styles/style.css"> -->
