@@ -551,5 +551,11 @@ function generate_capacity_table($selected_team, $program_increment, $iteration)
   ';
   return $table;
 }
+// End of table creation
+
+// Returns list of program increments
+function get_program_increments(){
+
+}
 
 ?>
