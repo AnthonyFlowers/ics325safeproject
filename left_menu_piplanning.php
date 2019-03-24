@@ -47,11 +47,11 @@
   	<br/>Trend<br/></div>
   </a>
 
-  <a href = "piplanning_checklist.php">
-  	<div <?php if($left_selected == "CHECKLIST")
-  	{ echo 'class="menu-left-current-page"'; } ?>>
+  <!-- <a href = "piplanning_checklist.php">
+  	<div <?php //if($left_selected == "CHECKLIST")
+  	// { echo 'class="menu-left-current-page"'; } ?>>
   	<img src="./images/piplanning_checklist.png">
   	<br/>Checklist<br/></div>
-  </a>
+  </a> -->
 
 </div>
