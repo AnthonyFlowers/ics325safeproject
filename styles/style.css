@@ -27,24 +27,45 @@ button, #btnGenPHP{
   width: 400px;
 }
 
-#dataTable th{
-  background-color: #98cc20;
+#summaryContent {
+  font-size: 20px;
 }
 
-#dataTable a{
+#summaryContent tr {
+  vertical-align: top;
+}
+
+.summaryTable td{
+  padding: 5px;
+  border: 3px solid white;
+  vertical-align: middle;
+  /* border-collapse:collapse; */
+}
+
+.summaryTable th{
+  background-color: #98cc20;
+  border: 3px solid white;
+  text-align: center;
+}
+
+.summaryTable a{
   color: red;
   text-decoration: none;
   font-weight: bold;
 }
 
-#dataTable tr{
+.summaryTable tr{
   padding: 5px;
 }
 
-#dataTable tr:nth-child(even){
+.summaryTable tr:nth-child(even){
   background-color: #e7e77e;
 }
 
-#dataTable tr:nth-child(odd){
+.summaryTable tr:nth-child(odd){
   background-color: #f3f3be;
+}
+
+.rightTextAlign{
+  text-align: right;
 }
