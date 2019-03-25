@@ -113,10 +113,17 @@
             <th>Agile Release Train</th><th>Total Capacity for PI (Story Points)</th>
           </tf>
           <?php
-            for ($i = 0; $i < 5; $i++) {
+          // Todo fill in story points
+            $sql_art = "SELECT team_name
+                        FROM trains_and_teams
+                        WHERE type='ART'
+                        GROUP BY team_name
+                        ";
+            $art_result = mysqli_query($db, $sql_art);
+            while($art = $art_result->fetch_assoc()){
               echo "<tr>" .
-                    "<td>ART_" . $i . "</td>" .
-                    "<td>" . $i * 100 . "</td>" .
+                    "<td>" . $art['team_name'] . "</td>" .
+                    "<td> --- </td>" .
                    "</tr>";
             }
           ?>
@@ -128,12 +135,19 @@
             <th>Agile Train</th><th>Total Capacity for PI (Story Points)</th>
           </tf>
           <?php
-            for ($i = 0; $i < 8; $i++) {
-              echo "<tr>" .
-                    "<td>ART_1_Team_" . $i . "</td>" .
-                    "<td>" . $i * 100 . "</td>" .
-                   "</tr>";
-            }
+          // Todo fill in story points
+          $sql_art = "SELECT team_name
+                      FROM trains_and_teams
+                      WHERE type='AT'
+                      GROUP BY team_name
+                      ";
+          $art_result = mysqli_query($db, $sql_art);
+          while($art = $art_result->fetch_assoc()){
+            echo "<tr>" .
+                  "<td>" . $art['team_name'] . "</td>" .
+                  "<td> --- </td>" .
+                 "</tr>";
+          }
           ?>
         </table>
       </td>
