@@ -268,10 +268,14 @@ function generate_data_link($base_url, $iteration_id, $team_name, $step){
 
 // Echos each PIID option as an html option element
 // Format of each option: <option value="1902">PI-1902</option>
-function generate_pii_options($all_piids){
+function generate_pii_options(){
+  global $db;
+  // Get all program increment ids from db
+  $sql_piis = "SELECT * FROM `cadence`";
+  $result_piids = mysqli_query($db, $sql_piis);
   $options = ""; // Store html elements
   $current_piid_found = false;
-  while($piid = $all_piids->fetch_assoc()){
+  while($piid = $result_piids->fetch_assoc()){
     // Check if the PIID has been added already
     if ($piid["PI_id"] != "" && !strpos($options, $piid["PI_id"])){
       $options .= "<option value=" . str_replace("PI-", "", $piid["PI_id"]);
@@ -552,13 +556,5 @@ function generate_capacity_table($selected_team, $program_increment, $iteration)
   return $table;
 }
 // End of table creation
-
-// Returns list of program increments
-function get_program_increment_dropdown($id){
-  $dropdown_menu;
-  return '<select id=' . $id . '>' .
-            '<option value="test">-WIP-</option>' .
-          '</select>';
-}
 
 ?>

@@ -7,11 +7,6 @@
   include("./nav.php");
   global $db;
   date_default_timezone_set('America/Chicago');
-
-  // Get all program increment ids from db
-  $sqlPIIs = "SELECT * FROM `cadence`";
-  $GLOBALS['allPIIDs'] = mysqli_query($db, $sqlPIIs);
-
   // Get current piid
   $sql_cur_piid = "SELECT * FROM `cadence` WHERE start_date <= NOW() AND NOW() <= end_date";
   $GLOBALS['curPIID'] = mysqli_query($db, $sql_cur_piid)->fetch_assoc()['PI_id'];
@@ -52,7 +47,7 @@
 
         Program Increment ID:
         <select type="text" id="programIID" name="programIID" class="userInput" onchange="this.form.submit();">
-          <?php echo generate_pii_options($allPIIDs); ?>
+          <?php echo generate_pii_options(); ?>
         </select><br>
         Agile Release Train (ART):
         <select type="text" id="agileRT" name="agileRT" class="userInput" onchange="this.form.submit();">
