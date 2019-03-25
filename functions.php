@@ -200,56 +200,56 @@ function show_flash_message() {
   return NULL;
 }
 
-function generate_table($baseURL, $programIID, $agileRT, $teamNames){
-  $programIID = str_replace("PI-", "", $programIID);
+function generate_table($base_url, $program_iid, $agileRT, $team_names){
+  $program_iid = str_replace("PI-", "", $program_iid);
   $steps = 6; // Number of steps the program will go through
   $table = ""; // Whole table html string
-  $table .= generate_thead($programIID, $steps); // Add table head to table
-  $table .= generate_rows($baseURL, $teamNames, $programIID, $programIID, $steps);
+  $table .= generate_thead($program_iid, $steps); // Add table head to table
+  $table .= generate_rows($base_url, $team_names, $program_iid, $program_iid, $steps);
   return $table; // Return html table
 }
 
 // Generate table header
-function generate_thead($programIID, $steps){
+function generate_thead($program_iid, $steps){
   $tableHead = "<tr>";
   $tableHead .= "<th>No.</th>"; // Add No. header
   $tableHead .= "<th>Team Name</th>"; // Add Team Name header
   // Add headers for each step
   for ($step = 0; $step < $steps; $step +=1){
     $tableHead .= "<th>";
-    $tableHead .= $programIID . "-" . ($step + 1);
+    $tableHead .= $program_iid . "-" . ($step + 1);
     $tableHead .= "</th>";
   }
-  $tableHead .= "<th>" . $programIID . "-IP</th>";
+  $tableHead .= "<th>" . $program_iid . "-IP</th>";
   $tableHead .= "</tr>";
   return $tableHead; // Return table head
 }
 
 // Generate table rows with data
-function generate_rows($baseURL, $teamNames, $programIID, $iterationID, $steps){
+function generate_rows($base_url, $team_names, $program_iid, $iteration_id, $steps){
   $tableRows = ""; // Each data row will be stored here
 
-  $teamNameList = explode(",", $teamNames);
+  $team_nameList = explode(",", $team_names);
   $rowNum = 1;
-  foreach ($teamNameList as $teamName){
-    $teamName = trim($teamName);
-    $tableRows .= generate_trow($baseURL, $rowNum, $teamName, $iterationID, $steps);
+  foreach ($team_nameList as $team_name){
+    $team_name = trim($team_name);
+    $tableRows .= generate_trow($base_url, $rowNum, $team_name, $iteration_id, $steps);
     $rowNum++;
   }
   return $tableRows; // Return all rows for table
 }
 
-function generate_trow($baseURL, $number, $teamName, $iterationID, $steps){
+function generate_trow($base_url, $number, $team_name, $iteration_id, $steps){
   $row = "<tr>"; // Store table row html element
   $row .= "<td>" . $number . "</td>"; // Add number to this row
-  $row .= "<td>" . $teamName . "</td>"; // Add team name to this row
+  $row .= "<td>" . $team_name . "</td>"; // Add team name to this row
   // Add each program increment to this row
   for ($step = 0; $step < $steps; $step += 1){
-    $row .= "<td>" . generate_data_link($baseURL, $iterationID, $teamName, $step + 1);
+    $row .= "<td>" . generate_data_link($base_url, $iteration_id, $team_name, $step + 1);
     $row .= "</td>";
   }
   // Add IP iteration to this row
-  $row .= "<td>" . generate_data_link($baseURL, $iterationID, $teamName, "IP");
+  $row .= "<td>" . generate_data_link($base_url, $iteration_id, $team_name, "IP");
   $row .= "</td>";
   $row .= "</td>";
   return $row; // Returns single row for table
@@ -257,33 +257,33 @@ function generate_trow($baseURL, $number, $teamName, $iterationID, $steps){
 
 // Create each link for the generated table data
 // Format of each link: <a href="(url)" title="(url)" target="_blank">(IID)-(step)_(teamName)</a>
-function generate_data_link($baseURL, $iterationID, $teamName, $step){
+function generate_data_link($base_url, $iteration_id, $team_name, $step){
   // Replace spaces with underscores and trim whitespace around team name
-  $teamName = str_replace(" ", "_", trim($teamName));
-  $url = $baseURL . "?id=" . $iterationID . "-" . $step . "_" . $teamName;
+  $team_name = str_replace(" ", "_", trim($team_name));
+  $url = $base_url . "?id=" . $iteration_id . "-" . $step . "_" . $team_name;
   $link = "<a href=\"" . $url . "\" title=\"" . $url;
-  $link .= "\" target=\"_blank\">" . $iterationID . "-" . $step . "</a>";
+  $link .= "\" target=\"_blank\">" . $iteration_id . "-" . $step . "</a>";
   return $link;
 }
 
 // Echos each PIID option as an html option element
 // Format of each option: <option value="1902">PI-1902</option>
-function generate_pii_options($allPIIDs){
+function generate_pii_options($all_piids){
   $options = ""; // Store html elements
-  $currentPIIDFound = false;
-  while($pIId = $allPIIDs->fetch_assoc()){
+  $current_piid_found = false;
+  while($piid = $all_piids->fetch_assoc()){
     // Check if the PIID has been added already
-    if ($pIId["PI_id"] != "" && !strpos($options, $pIId["PI_id"])){
-      $options .= "<option value=" . str_replace("PI-", "", $pIId["PI_id"]);
+    if ($piid["PI_id"] != "" && !strpos($options, $piid["PI_id"])){
+      $options .= "<option value=" . str_replace("PI-", "", $piid["PI_id"]);
       // Check if this program id was previously selected
-      if (isset($_POST['programIID']) && $_POST['programIID'] == str_replace("PI-", "", $pIId["PI_id"])) {
+      if (isset($_POST['programIID']) && $_POST['programIID'] == str_replace("PI-", "", $piid["PI_id"])) {
         // echo $_POST['programIID'];
         $options .= " selected";
-      } elseif(isset($GLOBALS['curPIID']) && $GLOBALS['curPIID'] == $pIId['PI_id']){
+      } elseif(isset($GLOBALS['curPIID']) && $GLOBALS['curPIID'] == $piid['PI_id']){
         $options .= " selected";
       }
       $options .= ' class="pIIDs">';
-      $options .= $pIId["PI_id"];
+      $options .= $piid["PI_id"];
       $options .= "</option>";
     }
   }
@@ -338,12 +338,12 @@ function set_team_names($selectedTeams){
 }
 
 // Sets the art preference in the database
-function set_art_preference($newPref){
+function set_art_preference($new_pref){
   global $db;
   // PHP prepared statement
-  $queryUpdatePref = $db->prepare("UPDATE `preferences` SET value=(?) WHERE name='DEFAULT_ART'");
-  $queryUpdatePref->bind_param("s", $newPref);
-  $queryUpdatePref->execute();
+  $query_update_pref = $db->prepare("UPDATE `preferences` SET value=(?) WHERE name='DEFAULT_ART'");
+  $query_update_pref->bind_param("s", $new_pref);
+  $query_update_pref->execute();
 }
 
 // Checks if the art preference is set in the database
@@ -358,18 +358,18 @@ function is_art_preference_set(){
 // Returns the art preference from the database
 function get_art_preference(){
   global $db;
-  $prefQuery = "SELECT * FROM `preferences` WHERE name='DEFAULT_ART'";
-  $prefResults = mysqli_query($db, $prefQuery);
-  $artPref = $prefResults->fetch_assoc();
-  return $artPref['value'];
+  $pref_query = "SELECT * FROM `preferences` WHERE name='DEFAULT_ART'";
+  $pref_results = mysqli_query($db, $pref_query);
+  $art_pref = $pref_results->fetch_assoc();
+  return $art_pref['value'];
 }
 
 // Return the base url from the database
 function get_base_url(){
   global $db;
-  $baseUrlQuery = "SELECT * FROM `preferences` WHERE name='BASE_URL'";
-  $baseUrlResults = mysqli_query($db, $baseUrlQuery);
-  return $baseUrlResults->fetch_assoc()['value'];
+  $base_url_query = "SELECT * FROM `preferences` WHERE name='BASE_URL'";
+  $base_url_results = mysqli_query($db, $base_url_query);
+  return $base_url_results->fetch_assoc()['value'];
 }
 
 // Generate capacity table
@@ -554,8 +554,11 @@ function generate_capacity_table($selected_team, $program_increment, $iteration)
 // End of table creation
 
 // Returns list of program increments
-function get_program_increments(){
-
+function get_program_increment_dropdown($id){
+  $dropdown_menu;
+  return '<select id=' . $id . '>' .
+            '<option value="test">-WIP-</option>' .
+          '</select>';
 }
 
 ?>
