@@ -117,22 +117,27 @@
             $sql_art = "SELECT team_name
                         FROM trains_and_teams
                         WHERE type='ART'
-                        GROUP BY team_name
-                        ";
-            $story_points = "SELECT total
-                            FROM Capacity
-                            ";
-            $story_result = mysqli_query($db, $story_points);
-
+                        GROUP BY team_name";
             $art_result = mysqli_query($db, $sql_art);
+
+
             while($art = $art_result->fetch_assoc()){
-                while($art = $art_result->fetch_assoc()){
-              echo "<tr>" .
-                    "<td>" . $art['team_name'] . "</td>" .
-                    "<td>" . $points['total'] . "</td>" .
-                   "</tr>";
-                }
+              $sql_story_points = "SELECT total
+                                   FROM Capacity
+                                   WHERE team_name = " . $art['team_name'];
+              $story_result = mysqli_query($db, $sql_story_points);
+              // Checks if the current team has values in the capacity table
+              if ($story_result){
+                $points = $story_result->fetch_assoc();
+
+                $story_result = mysqli_query($db, $sql_story_points);
+                echo "<tr>" .
+                      "<td>" . $art['team_name'] . "</td>" .
+                      "<td>" . $points['total'] . "</td>" .
+                     "</tr>";
             }
+          }
+
           ?>
         </table>
       </td>
