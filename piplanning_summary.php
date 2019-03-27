@@ -116,15 +116,14 @@
           // Todo fill in story points
             $sql_art = "SELECT team_name
                         FROM trains_and_teams
-                        WHERE type='ART'
-                        GROUP BY team_name";
+                        WHERE type='ART'";
             $art_result = mysqli_query($db, $sql_art);
 
 
             while($art = $art_result->fetch_assoc()){
               $sql_story_points = "SELECT total
-                                   FROM Capacity
-                                   WHERE team_name = " . $art['team_name'];
+                                   FROM `capacity`
+                                   WHERE team_name = \"" . $art['team_name'] . "\"";
               $story_result = mysqli_query($db, $sql_story_points);
               // Checks if the current team has values in the capacity table
               if ($story_result){
