@@ -119,12 +119,19 @@
                         WHERE type='ART'
                         GROUP BY team_name
                         ";
+            $story_points = "SELECT total
+                            FROM Capacity
+                            ";
+            $story_result = mysqli_query($db, $story_points);
+
             $art_result = mysqli_query($db, $sql_art);
             while($art = $art_result->fetch_assoc()){
+                while($art = $art_result->fetch_assoc()){
               echo "<tr>" .
                     "<td>" . $art['team_name'] . "</td>" .
-                    "<td> --- </td>" .
+                    "<td> . $points['total'] </td>" .
                    "</tr>";
+                }
             }
           ?>
         </table>
