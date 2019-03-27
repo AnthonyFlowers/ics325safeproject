@@ -150,18 +150,10 @@
                       ";
           $art_result = mysqli_query($db, $sql_art);
           while($art = $art_result->fetch_assoc()){
-            $sql_story_points = "SELECT total
-                                 FROM `capacity`
-                                 WHERE team_name = \"" . $art['team_name'] . "\"";
-            $story_result = mysqli_query($db, $sql_story_points);
-            // Checks if the current team has values in the capacity table
-            if ($story_result){
-              $points = $story_result->fetch_assoc();
-              echo "<tr>" .
-                    "<td>" . $art['team_name'] . "</td>" .
-                    "<td>". $points['total'] . "</td>" .
-                   "</tr>";
-             }
+            echo "<tr>" .
+                  "<td>" . $art['team_name'] . "</td>" .
+                  "<td> --- </td>" .
+                 "</tr>";
           }
           ?>
         </table>
