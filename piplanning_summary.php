@@ -129,7 +129,7 @@
                 while($art = $art_result->fetch_assoc()){
               echo "<tr>" .
                     "<td>" . $art['team_name'] . "</td>" .
-                    "<td> . $points['total'] </td>" .
+                    "<td>" . $points['total'] . "</td>" .
                    "</tr>";
                 }
             }
