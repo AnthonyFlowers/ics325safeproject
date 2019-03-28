@@ -35,16 +35,16 @@
 
       data: [
        {
-         type: "bar",
+         type: "column",
 
          indexLabelPlacement: "inside",
          indexLabelOrientation: "horizontal",
          dataPoints: [
-           { x: 1, y: 596, label: "ART_0"},
+           { x: 1, y: 400, label: "ART_0"},
            { x: 2, y: 442, label: "ART_1" },
            { x: 3, y: 393, label: "ART_2" },
            { x: 4, y: 377, label: "ART_3" },
-		   { x: 5, y: 377, label: "ART_4" }
+           { x: 5, y: 377, label: "ART_4" }
 
          ]
        }
@@ -60,7 +60,7 @@
 
       data: [
        {
-         type: "bar",
+         type: "column",
 
          indexLabelPlacement: "outside",
          indexLabelOrientation: "horizontal",
