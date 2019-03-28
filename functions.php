@@ -301,12 +301,12 @@ function generate_art_options($allARTs){
   while($art = $allARTs->fetch_assoc()){
     // Check if the ART has been added already
     if (strpos($options, $art["parent_name"]) == false){
-      $options .= "<option value=" . $art["parent_name"];
+      $options .= "<option value=" . $art["team_id"];
       if (is_selected_art_option($art)){
         $options .= " selected";
       }
       $options .= ">";
-      $options .= $art["parent_name"];
+      $options .= $art["team_id"];
       $options .= "</option>";
     }
   }
