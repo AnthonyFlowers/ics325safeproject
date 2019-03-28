@@ -12,7 +12,8 @@
   $GLOBALS['curPIID'] = mysqli_query($db, $sql_cur_piid)->fetch_assoc()['PI_id'];
 
   // Get all agile release trains from the db
-  $query_arts = "SELECT * FROM `trains_and_teams`";
+  $query_arts = "SELECT * FROM `trains_and_teams`
+                 WHERE type='ART'";
   $GLOBALS['allARTs'] = mysqli_query($db, $query_arts);
 
   $sql_query = "SELECT * FROM `trains_and_teams` WHERE `parent_name`=(?)";
