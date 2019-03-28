@@ -55,7 +55,7 @@
         </select><br>
         Names of the Teams:
         <input type="text" id="teamNames" name="teamNames" class="userInput" style="width: 50%;" value="<?php echo $selectedTeams ?>" readonly="readonly"><br>
-        <button id="btnGenJS" type="button">Generate JS</button><input type="submit" id="btnGenPHP"  value="Generate PHP">
+        <!-- <button id="btnGenJS" type="button">Generate JS</button><input type="submit" id="btnGenPHP"  value="Generate PHP"> -->
       </form>
 
       <!-- placeholder -->
