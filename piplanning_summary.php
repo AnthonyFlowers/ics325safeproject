@@ -24,67 +24,6 @@
 
 
 <head>
-  <script type="text/javascript">
-  window.onload = function () {
-    var chart = new CanvasJS.Chart("chartContainer",
-    {
-      title:{
-        text: "Agile Release Trains",
-        fontSize: 20
-      },
-
-      data: [
-       {
-         type: "column",
-
-         indexLabelPlacement: "inside",
-         indexLabelOrientation: "horizontal",
-         dataPoints: [
-           { x: 1, y: 400, label: "ART_0"},
-           { x: 2, y: 442, label: "ART_1" },
-           { x: 3, y: 393, label: "ART_2" },
-           { x: 4, y: 377, label: "ART_3" },
-           { x: 5, y: 377, label: "ART_4" }
-
-         ]
-       }
-      ]
-    });
-
-	 var chart2 = new CanvasJS.Chart("chartContainer2",
-    {
-      title:{
-        text: "Agile Teams",
-        fontSize: 20
-      },
-
-      data: [
-       {
-         type: "column",
-
-         indexLabelPlacement: "outside",
-         indexLabelOrientation: "horizontal",
-         dataPoints: [
-           { x: 1, y: 596, label: "ART_0_Team1" },
-           { x: 2, y: 442, label: "ART_0_Team2" },
-           { x: 3, y: 393, label: "ART_0_Team3" },
-           { x: 4, y: 377, label: "ART_0_Team4" },
-		   { x: 5, y: 377, label: "ART_0_Team5" }
-         ]
-       }
-      ]
-    });
-
-    chart.render();
-	chart2.render();
-
-  }
-  </script>
- <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-
-
- <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
  </head>
 
@@ -174,6 +113,71 @@
       </td>
     </tr>
   </table>
+
+  <script type="text/javascript">
+  window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+      title:{
+        text: "Agile Release Trains",
+        fontSize: 20
+      },
+
+      data: [
+       {
+         type: "column",
+		 
+
+         indexLabelPlacement: "inside",
+         indexLabelOrientation: "horizontal",
+		 
+         dataPoints: [
+           {  y: <?php echo $points['total']?>, <?php echo $art['team_name']?>},
+           { y: <?php echo $points['total']?>, label: "ART_1" },
+           { y: <?php echo $points['total']?>, label: "ART_2" },
+           { y: <?php echo $points['total']?>, label: "ART_3" },
+           { y: <?php echo $points['total']?>, label: "ART_4" }
+
+         ]
+		 
+       }
+      ]
+    });
+
+	 var chart2 = new CanvasJS.Chart("chartContainer2",
+    {
+      title:{
+        text: "Agile Teams",
+        fontSize: 20
+      },
+
+      data: [
+       {
+         type: "column",
+
+         indexLabelPlacement: "outside",
+         indexLabelOrientation: "horizontal",
+         dataPoints: [
+           { x: 1, y: 596, label: "ART_0_Team1" },
+           { x: 2, y: 442, label: "ART_0_Team2" },
+           { x: 3, y: 393, label: "ART_0_Team3" },
+           { x: 4, y: 377, label: "ART_0_Team4" },
+		   { x: 5, y: 377, label: "ART_0_Team5" }
+         ]
+       }
+      ]
+    });
+
+    chart.render();
+	chart2.render();
+
+  }
+  </script>
+ <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+
+ <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 
 
