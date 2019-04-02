@@ -87,18 +87,20 @@
         text: "Agile Release Trains",
         fontSize: 20
       },
-
       data: [
        {
          type: "column",
          indexLabelPlacement: "inside",
          indexLabelOrientation: "horizontal",
          dataPoints: [
-           {  y: <?php echo $art['total']?>, <?php echo $art['team_name']?>},
-           { y: <?php echo $art['total']?>, label: "ART_1" },
-           { y: <?php echo $art['total']?>, label: "ART_2" },
-           { y: <?php echo $art['total']?>, label: "ART_3" },
-           { y: <?php echo $art['total']?>, label: "ART_4" }
+           <?php
+            $art_result = get_teams_by_type("ART");
+            // Add data for each team
+            while($art = $art_result->fetch_assoc()){
+              echo "{ y: ". $art['total'] .", label:\"". $art['team_name'] ."\"},\n";
+            }
+           ?>
+
 
          ]
        }
