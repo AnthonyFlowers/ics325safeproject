@@ -7,9 +7,6 @@
   include("./nav.php");
   global $db;
   date_default_timezone_set('America/Chicago');
-  // Get current piid
-  $sql_cur_piid = "SELECT * FROM `cadence` WHERE start_date <= NOW() AND NOW() <= end_date";
-  $GLOBALS['curPIID'] = mysqli_query($db, $sql_cur_piid)->fetch_assoc()['PI_id'];
 
   // Get all agile release trains from the db
   $query_arts = "SELECT * FROM `trains_and_teams`

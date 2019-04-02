@@ -270,6 +270,13 @@ function generate_data_link($base_url, $iteration_id, $team_name, $step){
 // Format of each option: <option value="1902">PI-1902</option>
 function generate_pii_options(){
   global $db;
+
+  // Get current piid
+  if (!isset($GLOBALS['curPIID'])){
+    $sql_cur_piid = "SELECT * FROM `cadence` WHERE start_date <= NOW() AND NOW() <= end_date";
+    $GLOBALS['curPIID'] = mysqli_query($db, $sql_cur_piid)->fetch_assoc()['PI_id'];
+  }
+
   // Get all program increment ids from db
   $sql_piis = "SELECT * FROM `cadence`";
   $result_piids = mysqli_query($db, $sql_piis);
