@@ -564,4 +564,17 @@ function generate_capacity_table($selected_team, $program_increment, $iteration)
 }
 // End of table creation
 
+function get_teams_by_type($type){
+  global $db;
+  // Query for getting each at and the associated total capacity
+  $sql =
+  "SELECT t.team_name, total
+  FROM trains_and_teams t JOIN capacity c
+  WHERE type=\"" . $type . "\"
+  AND t.team_name = c.team_name
+  GROUP BY team_name";
+  $art_result = mysqli_query($db, $sql);
+  return $art_result;
+}
+
 ?>
