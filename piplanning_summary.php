@@ -32,13 +32,7 @@
   <table id="summaryContent">
     <tr>
       <td><h3 class="rightTextAlign topVertAlign">Program Increment (PI):</h3></td>
-      <td>
-        <select>
-        <?php
-          echo generate_pii_options();
-        ?>
-        </select>
-      </td>
+      <td><select><?php echo generate_pii_options(); ?></select></td>
     </tr>
     <tr>
       <td><h3>Agile Release Trains</h3></td>
@@ -52,31 +46,14 @@
             <th>Agile Release Train</th><th>Total Capacity for PI (Story Points)</th>
           </tf>
           <?php
-          // Todo fill in story points
-            $sql_art = "SELECT team_name
-                        FROM trains_and_teams
-                        WHERE type='ART'
-                        GROUP BY team_name
-                        ";
-            $story_points = "SELECT total
-                            FROM Capacity
-                            ";
-            $story_result = mysqli_query($db, $story_points);
+            $art_result = get_teams_by_type("ART");
 
-            $art_result = mysqli_query($db, $sql_art);
+            // Add rows for each team
             while($art = $art_result->fetch_assoc()){
-              $sql_story_points = "SELECT total
-                               FROM `capacity`
-                               WHERE team_name = \"" . $art['team_name'] . "\"";
-              $story_result = mysqli_query($db, $sql_story_points);
-              // Checks if the current team has values in the capacity table
-              if ($story_result){
-                $points = $story_result->fetch_assoc();
-                echo "<tr>" .
-                      "<td>" . $art['team_name'] . "</td>" .
-                      "<td>". $points['total'] . "</td>" .
-                     "</tr>";
-               }
+              echo "<tr>" .
+                    "<td>" . $art['team_name'] . "</td>" .
+                    "<td>". $art['total'] . "</td>" .
+                   "</tr>";
             }
           ?>
         </table>
@@ -87,27 +64,15 @@
             <th>Agile Train</th><th>Total Capacity for PI (Story Points)</th>
           </tf>
           <?php
-          // Todo fill in story points
-          $sql_art = "SELECT team_name
-                      FROM trains_and_teams
-                      WHERE type='AT'
-                      GROUP BY team_name
-                      ";
-          $art_result = mysqli_query($db, $sql_art);
-          while($art = $art_result->fetch_assoc()){
-            $sql_story_points = "SELECT total
-                                 FROM `capacity`
-                                 WHERE team_name = \"" . $art['team_name'] . "\"";
-            $story_result = mysqli_query($db, $sql_story_points);
-            // Checks if the current team has values in the capacity table
-            if ($story_result){
-              $points = $story_result->fetch_assoc();
+            $art_result = get_teams_by_type("AT");
+
+            // Add rows for each team
+            while($art = $art_result->fetch_assoc()){
               echo "<tr>" .
                     "<td>" . $art['team_name'] . "</td>" .
-                    "<td>". $points['total'] . "</td>" .
+                    "<td>". $art['total'] . "</td>" .
                    "</tr>";
-             }
-          }
+            }
           ?>
         </table>
       </td>
@@ -126,20 +91,16 @@
       data: [
        {
          type: "column",
-		 
-
          indexLabelPlacement: "inside",
          indexLabelOrientation: "horizontal",
-		 
          dataPoints: [
-           {  y: <?php echo $points['total']?>, <?php echo $art['team_name']?>},
-           { y: <?php echo $points['total']?>, label: "ART_1" },
-           { y: <?php echo $points['total']?>, label: "ART_2" },
-           { y: <?php echo $points['total']?>, label: "ART_3" },
-           { y: <?php echo $points['total']?>, label: "ART_4" }
+           {  y: <?php echo $art['total']?>, <?php echo $art['team_name']?>},
+           { y: <?php echo $art['total']?>, label: "ART_1" },
+           { y: <?php echo $art['total']?>, label: "ART_2" },
+           { y: <?php echo $art['total']?>, label: "ART_3" },
+           { y: <?php echo $art['total']?>, label: "ART_4" }
 
          ]
-		 
        }
       ]
     });
