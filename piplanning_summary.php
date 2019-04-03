@@ -10,7 +10,6 @@
   $nav_selected = "PIPLANNING";
   $left_buttons = "YES";
   $left_selected = "SUMMARY";
-  
   include("./nav.php");
   global $db;
 
@@ -42,8 +41,6 @@
             </tf>
             <?php
               $art_result = get_teams_by_type("ART");
-
-              $is_checked = false;
               // Add rows for each team
               while($art = $art_result->fetch_assoc()){
                 // if(isset($GLOBALS['']))
