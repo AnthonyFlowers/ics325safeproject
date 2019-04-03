@@ -57,7 +57,8 @@
       </form>
 
       <!-- placeholder -->
-      <table id="dataTable">
+      <table id="statusTable" cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered datatable-style"
+      width="100%" style="width: 100px;">
         <?php
           // Checks if baseURL is in the post to reduce database queries
           $baseURL = get_base_url();
@@ -86,3 +87,6 @@
     </script>
 
 <?php include("./footer.php"); ?>
+<style>
+<?php include("styles/style.css"); ?>
+</style>

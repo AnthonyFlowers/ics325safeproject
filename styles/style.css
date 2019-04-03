@@ -35,6 +35,28 @@ button, #btnGenPHP{
   vertical-align: top;
 }
 
+#statusTable th{
+  background-color: #98cc20;
+}
+
+#statusTable a{
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#statusTable tr{
+  padding: 5px;
+}
+
+#statusTable tr:nth-child(even){
+  background-color: #e7e77e;
+}
+
+#statusTable tr:nth-child(odd){
+  background-color: #f3f3be;
+}
+
 .summaryTable td{
   padding: 5px;
   border: 3px solid white;
