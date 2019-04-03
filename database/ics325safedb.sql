@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2019 at 01:11 AM
+-- Generation Time: Apr 03, 2019 at 04:40 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.1
 
@@ -144,18 +144,8 @@ INSERT INTO `capacity` (`id`, `team_id`, `team_name`, `program_increment`, `iter
 (3, 'AT-800', 'Alligators', 'PI-1903', 72, 72, 72, 72, 72, 72, 432),
 (4, 'AT-800', 'Alligators', 'PI-1904', 72, 72, 72, 72, 72, 72, 432),
 (5, 'AT-800', 'Alligators', 'PI-1905', 0, 0, 0, 0, 0, 0, 0),
-(6, 'ART-400', 'Agile Team 700', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(7, 'ART-400', 'Agile Team 700', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(8, 'ART-400', 'Agile Team 700', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(9, 'ART-400', 'Agile Team 700', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(10, 'ART-400', 'Agile Team 700', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(11, 'ART-400', 'Agile Team 700', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
+(11, 'ART-400', 'Agile Team 700', 'PI-1902', 72, 72, 72, 72, 72, 72, 400),
 (12, 'ART-400', 'Agile Team 701', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(13, 'ART-400', 'Agile Team 701', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(14, 'ART-400', 'Agile Team 701', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(15, 'ART-400', 'Agile Team 701', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(16, 'ART-400', 'Agile Team 701', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(17, 'ART-400', 'Agile Team 701', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
 (18, 'ART-401', 'Agile Team 702', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
 (19, 'ART-401', 'Agile Team 702', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
 (20, 'ART-401', 'Agile Team 702', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
@@ -288,12 +278,7 @@ INSERT INTO `capacity` (`id`, `team_id`, `team_name`, `program_increment`, `iter
 (147, 'ST-300', 'Agile Release Train  601 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
 (148, 'ST-300', 'Agile Release Train  601 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
 (149, 'ST-300', 'Agile Release Train  601 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
-(150, 'ST-300', 'Agile Release Train  602 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
-(151, 'ST-300', 'Agile Release Train  602 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
-(152, 'ST-300', 'Agile Release Train  602 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
-(153, 'ST-300', 'Agile Release Train  602 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
-(154, 'ST-300', 'Agile Release Train  602 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
-(155, 'ST-300', 'Agile Release Train  602 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
+(150, 'ST-300', 'Agile Release Train  602 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 400),
 (156, 'ART-600', '800 Agile Team', 'PI-2002', 72, 72, 72, 72, 72, 72, 432),
 (157, 'ART-600', '800 Agile Team', 'PI-2002', 72, 72, 72, 72, 72, 72, 432),
 (158, 'ART-600', '800 Agile Team', 'PI-2002', 72, 72, 72, 72, 72, 72, 432),
@@ -733,7 +718,19 @@ INSERT INTO `preferences` (`id`, `name`, `value`, `comments`) VALUES
 (26, 'PRODUCT_OWNER_SUPPORTS_MULTIPLE_TEAMS_SA', 'TRUE', ''),
 (27, 'PRODUCT_OWNER_SUPPORTS_MULTIPLE_TEAMS_OR', 'TRUE', ''),
 (28, 'BASE_URL', 'https://metro', ''),
-(29, 'DEFAULT_ART', 'ART-402', '');
+(29, 'DEFAULT_ART', 'ART-400', '');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `team_with_parent`
+-- (See below for the actual view)
+--
+CREATE TABLE `team_with_parent` (
+`team_name` varchar(55)
+,`parent_name` varchar(55)
+,`total` int(11)
+);
 
 -- --------------------------------------------------------
 
@@ -863,6 +860,15 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `hash`, `active`,
 (31, 'MASTER', 'ADMIN', 'siva.jasthi@metrostate.edu', '5b4da3d47ec8dbdffbd5eea70a28d8', 1, 'SUPER-ADMIN', '2019-02-06 18:52:04', '0000-00-00 00:00:00'),
 (67, 'Test', 'User', 'user@test.com', '5b4da3d47ec8dbdffbd5eea70a28d832', 1, 'SUPER-ADMIN', '2018-05-30 18:01:28', '0000-00-00 00:00:00'),
 (68, 'Test', 'User', 'test_admin@google.com', 'bf6f61616471c7d836e437301252d062', 1, 'SUPER-ADMIN', '2019-02-06 18:52:41', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `team_with_parent`
+--
+DROP TABLE IF EXISTS `team_with_parent`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `team_with_parent`  AS  select `t`.`team_name` AS `team_name`,`t`.`parent_name` AS `parent_name`,`c`.`total` AS `total` from ((`trains_and_teams` `t` join `trains_and_teams` `t2`) join `capacity` `c`) where ((`t`.`parent_name` = `t2`.`team_id`) and (`t`.`team_name` = `c`.`team_name`) and (`t`.`type` = 'AT')) ;
 
 --
 -- Indexes for dumped tables
