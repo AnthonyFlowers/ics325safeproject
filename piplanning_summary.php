@@ -168,3 +168,6 @@
 
 
 <?php include("./footer.php"); ?>
+<style>
+<?php include("styles/style.css"); ?>
+</style>

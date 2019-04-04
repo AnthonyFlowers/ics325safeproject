@@ -50,7 +50,7 @@ button, #btnGenPHP{
 }
 
 #statusTable tr:nth-child(even){
-  background-color: #e7e77e;
+  background-color: #f3f3be;
 }
 
 #statusTable tr:nth-child(odd){
@@ -81,7 +81,7 @@ button, #btnGenPHP{
 }
 
 .summaryTable tr:nth-child(even){
-  background-color: #e7e77e;
+  background-color: #f3f3be;
 }
 
 .summaryTable tr:nth-child(odd){
