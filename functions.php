@@ -449,6 +449,7 @@ function generate_capacity_table($selected_team, $program_increment, $iteration)
       $totalcapacity = $default_total*6;
     }
   }
+  
   // Start of table creation
   $table ='
   <table width="95%">
@@ -551,9 +552,9 @@ function generate_capacity_table($selected_team, $program_increment, $iteration)
   </table>
   <input type="submit" id="capacity-button-blue" name="submit0" value="Submit">
   <input type="submit" id="capacity-button-blue" name="restore" value="Restore Defaults">
-  <input type="submit" id="capacity-button-blue" name="showNext" value="Show Next Iteration">
-    <input type="hidden" name="current-team-selected" value="<?php echo $selected_team; ?>">
-    <input type="hidden" name="current-sequence" value="<?php echo $sequence; ?>">
+  <input type="button" id="capacity-button-blue" name="showNext" onclick="scrollWin();" value="Show Next Iteration">
+  <input type="hidden" name="current-team-selected" value="<?php echo $selected_team; ?>">
+  <input type="hidden" name="current-sequence" value="<?php echo $sequence; ?>">
   </form>
 
   </td>
@@ -591,4 +592,11 @@ function get_teams_by_parent_name($parent_name){
   return $art_result->get_result();
 }
 
+
+
 ?>
+<script>
+function scrollWin() {
+  window.scrollBy(0, 400);
+}
+</script>
