@@ -87,87 +87,12 @@
     </tr>
   </table>
 
-  <script type="text/javascript">
-  window.onload = function () {
-    var chart = new CanvasJS.Chart("chartContainer",
-    {
-      title:{
-        text: "Agile Release Trains",
-        fontSize: 20
-      },
-      data: [
-       {
-         type: "column",
-         indexLabelPlacement: "inside",
-         indexLabelOrientation: "horizontal",
-         dataPoints: [
-           <?php
-            $art_result = get_teams_by_type("ART");
-            // Add data for each team
-            while($art = $art_result->fetch_assoc()){
-              echo "{ y: ". $art['total'] .", label:\"". $art['team_name'] ."\"},\n";
-            }
-           ?>
-         ]
-       }
-      ]
-    });
-
-	 var chart2 = new CanvasJS.Chart("chartContainer2",
-    {
-      title:{
-        text: "Agile Teams",
-        fontSize: 20
-      },
-
-      data: [
-       {
-         type: "column",
-
-         indexLabelPlacement: "outside",
-         indexLabelOrientation: "horizontal",
-         dataPoints: [
-           <?php
-            $teams = get_teams_by_parent_name("ART-602");
-            if (isset($_POST['parent_name'])){
-              $teams = get_teams_by_parent_name($_POST['parent_name']);
-            }
-            while($art = $teams->fetch_assoc()){
-              echo "{ y: ". $art['total'] .", label:\"". $art['team_name'] ."\"},\n";
-            }
-           ?>
-         ]
-       }
-      ]
-    });
-
-    chart.render();
-	chart2.render();
-
-  }
-  </script>
- <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-
-
- <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-
-
-  <div id="chartContainer" style="height: 300px; width: 50%;"></div>
-
-  <div id="chartContainer2" style="height: 300px; width: 50%;"></div>
-
-
-
 </body>
 
 </html>
-
-
-
 
 <?php include("./footer.php"); ?>
 <style>
 <?php include("styles/style.css"); ?>
 </style>
+
