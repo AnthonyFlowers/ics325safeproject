@@ -41,6 +41,7 @@
             </tf>
             <?php
               $art_result = get_teams_by_type("ART");
+              $total_capacity = 0;
               // Add rows for each team
               while($art = $art_result->fetch_assoc()){
                 // if(isset($GLOBALS['']))
@@ -54,7 +55,12 @@
                       "</td>" .
                       "<td>". $art['total'] ."</td>" .
                      "</tr>";
+                $total_capacity += $art['total'];
               }
+              echo "<tr>" .
+                    "<td>Total Capacity:</td>" .
+                    "<td>". $total_capacity ."</td>" .
+                   "</tr>";
             ?>
           </table>
         </form>
@@ -66,6 +72,7 @@
           </tr>
           <?php
             $at_result = get_teams_by_parent_name("ART-602");
+            $total_capacity = 0;
             if(isset($_POST['parent_name'])){
               $at_result = get_teams_by_parent_name($_POST['parent_name']);
             }
@@ -77,7 +84,12 @@
                       "<td>". $art['team_name'] ."</td>".
                       "<td>". $art['total'] ."</td>".
                      "</tr>\n";
+                $total_capacity += $art['total'];
               }
+              echo "<tr>" .
+                      "<td>Total Capacity:</td>" .
+                      "<td>". $total_capacity ."</td>" .
+                   "</tr>";
             } else {
               echo "<tr><td colspan='2' style='text-align: center;'>No teams found</td></tr>";
             }
@@ -95,4 +107,3 @@
 <style>
 <?php include("styles/style.css"); ?>
 </style>
-
