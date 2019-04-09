@@ -449,7 +449,7 @@ function generate_capacity_table($selected_team, $program_increment, $iteration)
       $totalcapacity = $default_total*6;
     }
   }
-  
+
   // Start of table creation
   $table ='
   <table width="95%">
@@ -573,7 +573,7 @@ function get_teams_by_type($type){
   FROM trains_and_teams t JOIN capacity c
   WHERE type=\"%s\"
   AND t.team_name = c.team_name
-  GROUP BY team_name";
+  ORDER BY team_name";
   $sql = sprintf($sql, $type);
   $art_result = mysqli_query($db, $sql);
   return $art_result;
@@ -585,7 +585,8 @@ function get_teams_by_parent_name($parent_name){
   $sql =
   "SELECT team_name, total
   FROM team_with_parent
-  WHERE parent_name = (?)";
+  WHERE parent_name = (?)
+  ORDER BY team_name";
   $art_result = $db->prepare($sql);
   $art_result->bind_param("s", $parent_name);
   $art_result->execute();
