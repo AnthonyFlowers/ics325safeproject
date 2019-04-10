@@ -213,7 +213,7 @@
                 }
               }
             ?>
-             <div style="float: right; margin-right: 10px; text-align: center; font-size: 12px;">
+             <div style="float: left; margin-right: 10px;  text-align: center; font-size: 12px;">
                <div id="capacity-calc-bignum" name="totalcap"> <?php echo $totalcapacity  ?></div>
                Total Capacity for the Program Increment
              </div>
@@ -290,7 +290,6 @@
           var tcap = parseInt(capdiff) + parseInt(totalcap_old);
           document.getElementsByName("totalcap")[0].innerHTML = tcap;
         }
-
 
     </script>
 
