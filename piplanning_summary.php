@@ -1,10 +1,3 @@
-<html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-
-</style>
-
 <?php
 
   $nav_selected = "PIPLANNING";
@@ -24,6 +17,12 @@
 
   ?>
 
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+</style>
 <!DOCTYPE HTML>
 
 <head></head>
@@ -76,6 +75,7 @@
                 } else {
                   echo "<tr><td colspan='2' style='text-align: center;'>No teams found</td></tr>";
                 }
+
               ?>
             </table>
 
