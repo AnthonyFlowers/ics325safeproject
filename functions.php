@@ -580,12 +580,12 @@ function get_teams_by_type($type){
   WHERE type = ?
   AND t.team_name = c.team_name
   AND c.program_increment = ?
-  GROUP BY t.team_name
   ORDER BY team_name";
   $art_result = $db->prepare($sql);
   $art_result->bind_param("ss", $type, $GLOBALS['curPIID']);
   $art_result->execute();
   // $art_result = mysqli_query($db, $sql);
+  $_SESSION['curPIID'] = $GLOBALS['curPIID'];
   return $art_result->get_result();
 }
 
@@ -600,6 +600,7 @@ function get_teams_by_parent_name($parent_name){
   $art_result = $db->prepare($sql);
   $art_result->bind_param("s", $parent_name);
   $art_result->execute();
+  $_SESSION['parent_name'] = $parent_name;
   return $art_result->get_result();
 }
 

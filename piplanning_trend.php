@@ -1,10 +1,12 @@
 <?php
-
   $nav_selected = "PIPLANNING";
-  $left_buttons = "YES"; 
+  $left_buttons = "YES";
   $left_selected = "TREND";
   include("./nav.php");
   global $db;
+
+  $GLOBALS['curPIID'] = $_SESSION['curPIID'];
+  $GLOBALS['parent_name'] = $_SESSION['parent_name'];
 
   ?>
 <body>
@@ -50,8 +52,8 @@
          dataPoints: [
            <?php
             $teams = get_teams_by_parent_name("ART-602");
-            if (isset($_POST['parent_name'])){
-              $teams = get_teams_by_parent_name($_POST['parent_name']);
+            if (isset($GLOBALS['parent_name'])){
+              $teams = get_teams_by_parent_name(isset($GLOBALS['parent_name']));
             }
             while($art = $teams->fetch_assoc()){
               echo "{ y: ". $art['total'] .", label:\"". $art['team_name'] ."\"},\n";
@@ -78,4 +80,3 @@
 </body>
 
 <?php include("./footer.php"); ?>
-
