@@ -328,11 +328,11 @@ function generate_art_options($allARTs){
 
 // Checks if the art option should be selected
 function is_selected_art_option($art){
-  if (isset($_POST['agileRT']) && $_POST['agileRT'] == $art['parent_name']){
+  if (isset($_POST['agileRT']) && $_POST['agileRT'] == $art['team_id']){
     return true;
-  } elseif(isset($_COOKIE['AGILE_RELEASE_TRAIN']) & !isset($_POST['agileRT']) && $art['parent_name'] == $_COOKIE['AGILE_RELEASE_TRAIN']){
+  } elseif(isset($_COOKIE['AGILE_RELEASE_TRAIN']) & !isset($_POST['agileRT']) && $art['team_id'] == $_COOKIE['AGILE_RELEASE_TRAIN']){
     return true;
-  } elseif(isset($GLOBALS['agileRTg']) && $GLOBALS['agileRTg'] == $art['parent_name']){
+  } elseif(isset($GLOBALS['agileRTg']) && $GLOBALS['agileRTg'] == $art['team_id']){
     return true;
   } else {
     return false;
