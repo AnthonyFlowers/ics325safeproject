@@ -282,20 +282,26 @@ function generate_pii_options(){
   $result_piids = mysqli_query($db, $sql_piis);
   $options = ""; // Store html elements
   $current_piid_found = false;
+  $is_first_piid = true;
   while($piid = $result_piids->fetch_assoc()){
     // Check if the PIID has been added already
     if ($piid["PI_id"] != "" && !strpos($options, $piid["PI_id"])){
       $options .= "<option value=" . str_replace("PI-", "", $piid["PI_id"]);
       // Check if this program id was previously selected
       if (isset($_POST['programIID']) && $_POST['programIID'] == str_replace("PI-", "", $piid["PI_id"])) {
-        // echo $_POST['programIID'];
         $options .= " selected";
+        if ($is_first_piid){
+           $GLOBALS['curPIID'] = $piid["PI_id"];
+           $is_first_piid = false;
+       }
+
       } elseif(isset($GLOBALS['curPIID']) && $GLOBALS['curPIID'] == $piid['PI_id']){
         $options .= " selected";
       }
       $options .= ' class="pIIDs">';
       $options .= $piid["PI_id"];
       $options .= "</option>";
+
     }
   }
   return $options;
@@ -571,12 +577,16 @@ function get_teams_by_type($type){
   $sql =
   "SELECT t.team_name, t.team_id, total
   FROM trains_and_teams t JOIN capacity c
-  WHERE type=\"%s\"
+  WHERE type = ?
   AND t.team_name = c.team_name
+  AND c.program_increment = ?
+  GROUP BY t.team_name
   ORDER BY team_name";
-  $sql = sprintf($sql, $type);
-  $art_result = mysqli_query($db, $sql);
-  return $art_result;
+  $art_result = $db->prepare($sql);
+  $art_result->bind_param("ss", $type, $GLOBALS['curPIID']);
+  $art_result->execute();
+  // $art_result = mysqli_query($db, $sql);
+  return $art_result->get_result();
 }
 
 function get_teams_by_parent_name($parent_name){
@@ -585,7 +595,7 @@ function get_teams_by_parent_name($parent_name){
   $sql =
   "SELECT team_name, total
   FROM team_with_parent
-  WHERE parent_name = (?)
+  WHERE parent_name = ?
   ORDER BY team_name";
   $art_result = $db->prepare($sql);
   $art_result->bind_param("s", $parent_name);
