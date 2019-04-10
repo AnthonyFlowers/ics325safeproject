@@ -13,6 +13,15 @@
   include("./nav.php");
   global $db;
 
+  if(isset($_POST['programIID'])){
+    $globals['curPIID'] = $_POST['programIID'];
+  }
+
+  if(isset($_POST['parent_name'])){
+    $globalc['parent_name'] = isset($_POST['parent_name']);
+    // echo $_POST['parent_name'];
+  }
+
   ?>
 
 <!DOCTYPE HTML>
@@ -20,85 +29,93 @@
 <head></head>
 
 <body>
+  <form action="" method="POST">
+    <table id="summaryContent">
 
-  <table id="summaryContent">
-    <tr>
-      <td><h3 class="rightTextAlign topVertAlign">Program Increment (PI):</h3></td>
-      <td>
-        <select name="piID" onchange="this.form.submit()"><?php echo generate_pii_options(); ?></select>
-      </td>
-    </tr>
-    <tr>
-      <td><h3>Agile Release Trains</h3></td>
-      <td><h3>Agile Teams</h3></td>
-    </tr>
-    <tr>
-      <td>
-        <form action="" method="POST">
-          <table id="artTable" class="summaryTable topVertAlign">
+      <tr>
+        <td><h3 class="rightTextAlign topVertAlign">Program Increment (PI):</h3></td>
+        <td>
+          <select name="programIID" onchange="this.form.submit()"><?php echo generate_pii_options(); ?></select>
+        </td>
+      </tr>
+      <tr>
+        <td><h3>Agile Release Trains</h3></td>
+        <td><h3>Agile Teams</h3></td>
+      </tr>
+      <tr>
+        <td>
+            <table id="artTable" class="summaryTable topVertAlign">
+              <tr>
+                <th>Agile Release Train</th><th>Total Capacity for PI (Story Points)</th>
+              </tf>
+              <?php
+                $art_result = get_teams_by_type("ART");
+                $total_capacity = 0;
+                $first_art = true;
+                if ($art_result->num_rows > 0){
+                  // Add rows for each team
+                  while($art = $art_result->fetch_assoc()){
+                    $is_selected = "";
+                    if((isset($_POST['parent_name']) && $_POST['parent_name'] == $art['team_id']) || ($first_art && !isset($_POST['parent_name']))){
+                      $is_selected = "color: red;";
+                      $first_art = false;
+                      $globals['parent_name'] = $art["team_name"];
+                    }
+                    echo "<tr>" .
+                          "<td><input class=\"remove-input-style\" type=\"radio\" id=\"". $art["team_id"] ."\" name=\"parent_name\" value=\"". $art['team_id'] ."\" onchange=\"this.form.submit()\" hidden>".
+                          "<label for=\"". $art['team_id'] ."\"  style=\"". $is_selected ."\">". $art["team_name"] ."</label>".
+                          "</td>" .
+                          "<td>". $art['total'] ."</td>" .
+                         "</tr>";
+                    $total_capacity += $art['total'];
+                  }
+                  echo "<tr>" .
+                        "<td>Total Capacity:</td>" .
+                        "<td>". $total_capacity ."</td>" .
+                       "</tr>";
+                } else {
+                  echo "<tr><td colspan='2' style='text-align: center;'>No teams found</td></tr>";
+                }
+              ?>
+            </table>
+
+        </td>
+        <td>
+          <table id="atTable" class="summaryTable topVertAlign">
             <tr>
-              <th>Agile Release Train</th><th>Total Capacity for PI (Story Points)</th>
-            </tf>
+              <th>Agile Train</th><th>Total Capacity for PI (Story Points)</th>
+            </tr>
             <?php
-              $art_result = get_teams_by_type("ART");
+              $at_result = get_teams_by_parent_name("ART-602");
               $total_capacity = 0;
-              // Add rows for each team
-              while($art = $art_result->fetch_assoc()){
-                // if(isset($GLOBALS['']))
-                $is_selected = "";
-                if(isset($_POST['parent_name']) && $_POST['parent_name'] == $art['team_id']){
-                  $is_selected = "color: red;";
+              if(isset($_POST['parent_name'])){
+                $at_result = get_teams_by_parent_name($_POST['parent_name']);
+              } else if (isset($globals['parent_name'])){
+                $at_result = get_teams_by_parent_name($globals['parent_name']);
+              }
+
+              if($at_result->num_rows > 0){
+                // Add rows for each team
+                while($art = $at_result->fetch_assoc()){
+                  echo "<tr>".
+                        "<td>". $art['team_name'] ."</td>".
+                        "<td>". $art['total'] ."</td>".
+                       "</tr>\n";
+                  $total_capacity += $art['total'];
                 }
                 echo "<tr>" .
-                      "<td><input class=\"remove-input-style\" type=\"radio\" id=\"". $art["team_id"] ."\" name=\"parent_name\" value=\"". $art['team_id'] ."\" onchange=\"this.form.submit()\" hidden>".
-                      "<label for=\"". $art['team_id'] ."\"  style=\"". $is_selected ."\">". $art["team_name"] ."</label>".
-                      "</td>" .
-                      "<td>". $art['total'] ."</td>" .
+                        "<td>Total Capacity:</td>" .
+                        "<td>". $total_capacity ."</td>" .
                      "</tr>";
-                $total_capacity += $art['total'];
+              } else {
+                echo "<tr><td colspan='2' style='text-align: center;'>No teams found</td></tr>";
               }
-              echo "<tr>" .
-                    "<td>Total Capacity:</td>" .
-                    "<td>". $total_capacity ."</td>" .
-                   "</tr>";
             ?>
           </table>
-        </form>
-      </td>
-      <td>
-        <table id="atTable" class="summaryTable topVertAlign">
-          <tr>
-            <th>Agile Train</th><th>Total Capacity for PI (Story Points)</th>
-          </tr>
-          <?php
-            $at_result = get_teams_by_parent_name("ART-602");
-            $total_capacity = 0;
-            if(isset($_POST['parent_name'])){
-              $at_result = get_teams_by_parent_name($_POST['parent_name']);
-            }
-
-            if($at_result->num_rows > 0){
-              // Add rows for each team
-              while($art = $at_result->fetch_assoc()){
-                echo "<tr>".
-                      "<td>". $art['team_name'] ."</td>".
-                      "<td>". $art['total'] ."</td>".
-                     "</tr>\n";
-                $total_capacity += $art['total'];
-              }
-              echo "<tr>" .
-                      "<td>Total Capacity:</td>" .
-                      "<td>". $total_capacity ."</td>" .
-                   "</tr>";
-            } else {
-              echo "<tr><td colspan='2' style='text-align: center;'>No teams found</td></tr>";
-            }
-          ?>
-        </table>
-      </td>
-    </tr>
-  </table>
-
+        </td>
+      </tr>
+    </table>
+  </form>
 </body>
 
 </html>
