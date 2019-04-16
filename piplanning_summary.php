@@ -43,6 +43,7 @@
       </tr>
       <tr>
         <td>
+          <!-- Left Table -->
             <table id="artTable" class="summaryTable topVertAlign">
               <tr>
                 <th>Agile Release Train</th><th>Total Capacity for PI (Story Points)</th>
@@ -58,7 +59,7 @@
                     if((isset($_POST['parent_name']) && $_POST['parent_name'] == $art['team_id']) || ($first_art && !isset($_POST['parent_name']))){
                       $is_selected = "color: red;";
                       $first_art = false;
-                      $globals['parent_name'] = $art["team_name"];
+                      $globals['parent_name'] = $art["team_id"];
                     }
                     echo "<tr>" .
                           "<td><input class=\"remove-input-style\" type=\"radio\" id=\"". $art["team_id"] ."\" name=\"parent_name\" value=\"". $art['team_id'] ."\" onchange=\"this.form.submit()\" hidden>".
@@ -81,6 +82,7 @@
 
         </td>
         <td>
+          <!-- Right Table -->
           <table id="atTable" class="summaryTable topVertAlign">
             <tr>
               <th>Agile Train</th><th>Total Capacity for PI (Story Points)</th>
@@ -92,9 +94,11 @@
                 $at_result = get_teams_by_parent_name($_POST['parent_name']);
               } else if (isset($globals['parent_name'])){
                 $at_result = get_teams_by_parent_name($globals['parent_name']);
+              } else {
+                $at_result = null;
               }
 
-              if($at_result->num_rows > 0){
+              if($at_result != null && $at_result->num_rows > 0){
                 // Add rows for each team
                 while($art = $at_result->fetch_assoc()){
                   echo "<tr>".
