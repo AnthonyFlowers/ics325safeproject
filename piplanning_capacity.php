@@ -48,12 +48,10 @@
 
   if (isset($_POST['current-sequence'])) {
     $sequence = $_POST['current-sequence'];
-
   }
 
   if (isset($_POST['current-team-selected'])) {
       $selected_team = $_POST['current-team-selected'];
-
   }
 
   if (isset($_POST['showNext'])) {
@@ -221,20 +219,181 @@
         </tr>
       </table>
 
-      <!-- Table 1 -->
-      <?php echo generate_capacity_table($selected_team, $program_increment, "-1"); ?>
-      <!-- Table 2 -->
-      <?php echo generate_capacity_table($selected_team, $program_increment, "-2"); ?>
-      <!-- Table 3 -->
-      <?php echo generate_capacity_table($selected_team, $program_increment, "-3"); ?>
-      <!-- Table 4 -->
-      <?php echo generate_capacity_table($selected_team, $program_increment, "-4"); ?>
-      <!-- Table 5 -->
-      <?php echo generate_capacity_table($selected_team, $program_increment, "-5"); ?>
-      <!-- Table 6 -->
-      <?php echo generate_capacity_table($selected_team, $program_increment, "-6"); ?>
-      <!-- Table 7 -->
-      <!-- <?php // echo generate_capacity_table($selected_team, $program_increment, "-IP"); ?> -->
+      <?php
+        for ($it = 1; $it <= 6; $it++) {
+          $iteration = str_replace('PI-', '', $program_increment). "-" . $it;
+          echo "<table width=\"95%\">";
+          echo "<tr>";
+          echo "<td width=\"25%\" style=\"vertical-align: bottom; font-weight: bold;
+                                  color: #01B0F1; line-height: 130%;
+                                  font-size: 18px;\">";
+          echo "Iteration (I): &emsp; <br/>";
+          echo "</td>";
+          echo "<td  style=\"vertical-align: bottom; font-weight: bold;
+                            line-height: 130%;  font-size: 18px;\" width=\"25%\">";
+          echo $iteration . "<br/>";
+          echo "</td>";
+          echo "<td width=\"50%\"  style=\"font-weight: bold;\">";
+          echo "<div style=\"float: right; margin-right: 10px; text-align: center; font-size: 12px;\">";
+          echo "<div id=\"capacity-calc-bignum\" name=\"icap\">" . $icapacity . "</div>";
+          echo "Total Capacity for this Iteration";
+          echo "</div>";
+          echo "</td>";
+          echo "</tr>";
+          echo "<tr>";
+          echo "<td colspan=\"3\">";
+          echo "<form method=\"post\" action=\"#\" id=\"maincap\">";
+          echo "<table id=\"info\" cellpadding=\"2px\" cellspacing=\"0\"
+          border=\"0\" class=\"capacity-table\" width=\"100%\" style=\"width: 100%;
+          clear: both; font-size: 15px; margin: 8px 0 15px 0\">";
+          echo "<thead>";
+          echo "<tr id=\"capacity-table-first-row\">";
+          echo "<th id=\"capacity-table-td\">Last Name</th>";
+          echo "<th id=\"capacity-table-td\">First Name</th>";
+          echo "<th id=\"capacity-table-td\">Role</th>";
+          echo "<th id=\"capacity-table-td\">% Velocity Available</th>";
+          echo "<th id=\"capacity-table-td\">Days Off <br/><p style=\"font-size: 9px;\">(Vacation / Holidays / Sick Days)</p></th>";
+          echo "<th id=\"capacity-table-td\">Story Points</th>";
+          echo "</thead>";
+          echo "<tbody>";
+          echo "</tr>";
+          // Get duration
+          $sql5 = "SELECT * FROM `cadence` WHERE PI_id='" . $program_increment . "';";
+          $result5 = $db->query($sql5);
+          if ($result5->num_rows > 0) {
+              $row5 = $result5->fetch_assoc();
+              $duration = $row5["duration"];
+          }
+          if (isset($_POST['submit0'])) {
+            $iterationcapacity = 0;
+            for ($x=0; $x < count($_POST['rownum']); $x++){
+              $teamcapacity[$_POST['rownum'][$x]] = round(($duration-$_POST['daysoff'][$x])*((100-$overhead_percentage)/100)*($_POST['velocity'][$x]/100));
+              $iterationcapacity += $teamcapacity[$_POST['rownum'][$x]];
+              $daysoff[$_POST['rownum'][$x]] = $_POST['daysoff'][$x];
+              $velocity[$_POST['rownum'][$x]] = $_POST['velocity'][$x];
+            }
+            $sqliter = "UPDATE `capacity` SET iteration_".substr($iteration, -1)."='".$iterationcapacity."' WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."';";
+            $result_iter = $db->query($sqliter);
+            $sqlinc = "SELECT (iteration_1 + iteration_2 + iteration_3 + iteration_4 + iteration_5 + iteration_6) as new_total FROM `capacity` WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."';";
+            $result_inc = $db->query($sqlinc);
+            if ($result_inc->num_rows > 0) {
+                $rowinc = $result_inc->fetch_assoc();
+                $pi_capacity = $rowinc["new_total"];
+              }
+            $sqlup = "UPDATE `capacity` SET total='$pi_capacity' WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."';";
+            $result_up = $db->query($sqlup);
+
+            // keep velocity and days off value changes
+            $iterationcapacity = 0;
+            for ($x=0; $x < count($_POST['rownum']); $x++){
+              $teamcapacity[$_POST['rownum'][$x]] = round(($duration-$_POST['daysoff'][$x])*((100-$overhead_percentage)/100)*($_POST['velocity'][$x]/100));
+              $iterationcapacity += $teamcapacity[$_POST['rownum'][$x]];
+              $daysoff[$_POST['rownum'][$x]] = $_POST['daysoff'][$x];
+              $velocity[$_POST['rownum'][$x]] = $_POST['velocity'][$x];
+            }
+          }
+          $sql6 = "SELECT * FROM `preferences` WHERE name='OVERHEAD_PERCENTAGE';";
+          $result6 = $db->query($sql6);
+          if ($result6->num_rows > 0) {
+              $row6 = $result6->fetch_assoc();
+              $overhead_percentage = $row6["value"];
+          }
+          $sql = "SELECT * FROM `capacity` WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."'";
+          $result = $db->query($sql);
+
+          if ($result->num_rows > 0) {
+              $row = $result->fetch_assoc();
+
+              if (isset($teamcapacity)  && !isset($_POST['restore'])  && !isset($_POST['submit0'])){
+                $icapacity = array_sum($teamcapacity);
+                $totalcapacity = $row["total"] + ($icapacity - $row["iteration_".substr($iteration, -1)]);
+              } else {
+                $icapacity = $row["iteration_".substr($iteration, -1)];
+                $totalcapacity = $row["total"];
+              }
+          } else {
+            if (isset($teamcapacity)  && !isset($_POST['restore'])  && !isset($_POST['submit0'])){
+              $icapacity = array_sum($teamcapacity);
+              $totalcapacity = ($default_total*6) + ($icapacity - $default_total);
+            } else {
+              $icapacity = $default_total;
+              $totalcapacity = $default_total*6;
+            }
+          }
+          $sql = "SELECT last_name, first_name, role FROM `membership`
+                  JOIN `employees`
+                  WHERE employee_name LIKE CONCAT_WS(' ',last_name, first_name)
+                  AND team_name='".$selected_team."';";
+          $result = $db->query($sql);
+          $rownum = 0;
+          while ($row = $result->fetch_assoc()) {
+            if (strpos($row["role"], "SM") !== false) {
+              $velocityType = "SCRUM_MASTER_ALLOCATION";
+            } else if (strpos($row["role"], "PO") !== false) {
+              $velocityType = "PRODUCT_OWNER_ALLOCATION";
+            } else  {
+              $velocityType = "AGILE_TEAM_MEMBER_ALLOCATION";
+            }
+            $sql2 = "SELECT * FROM `preferences` WHERE name='".$velocityType."';";
+            $result2 = $db->query($sql2);
+            if ($result2->num_rows > 0) {
+                $row2 = $result2->fetch_assoc();
+            }
+            if (isset($teamcapacity[$rownum]) && !isset($_POST['restore']) && isset($_POST['submit0'])){
+              $storypts = $teamcapacity[$rownum];
+            } else {
+              $storypts = round(($duration-0)*((100-$overhead_percentage)/100)*($row2["value"]/100));
+            }
+            $valueForJS = $row2["value"];
+            if (isset($daysoff[$rownum]) && !isset($_POST['restore'])  && isset($_POST['submit0'])){
+              $doff = $daysoff[$rownum];
+            } else {
+              $doff = 0;
+            }
+            if (isset($velocity[$rownum]) && !isset($_POST['restore']) && isset($_POST['submit0'])){
+              $vel = $velocity[$rownum];
+            } else {
+              $vel = $row2["value"];
+            }
+
+          if ($result->num_rows > 0) {
+            echo "
+              <tr>
+              <td id='capacity-table-td' style='font-weight:500;'>" . $row["last_name"] . "</td>
+              <td id='capacity-table-td' style='font-weight:500;'>" . $row["first_name"] . "</td>
+              <td id='capacity-table-td' style='font-weight:500;'>" . $row["role"] . "</td>
+              <td id='capacity-table-td' style='font-weight:500; text-align: center;'><input id='autoin' class='capacity-text-input' type='text' name='velocity[]' value='" . $vel . "' onchange='autoLoad();' /> %</td>
+              <td id='capacity-table-td' style='font-weight:500; text-align: center;'><input id='autoin2' class='capacity-text-input' type='text' name='daysoff[]' value='".$doff."' onchange='autoLoad();' /></td>
+              <td id='capacity-table-td' style='font-weight:500; text-align: center;  background: #e9e9e9;'><input id='story' class='capacity-text-input' type='text' name='storypoints[]' value='".$storypts."' readonly='readonly' style='border: 0;  background: #e9e9e9;' />&nbsp;pts</td>
+              <input type='hidden' name='rownum[]' value='".$rownum."'/>
+              </tr>";
+
+          } else {
+            echo "
+              <tr>
+                <td colspan='6' id='capacity-table-td'  style='text-align: center; font-weight: bold; padding: 20px 0 20px 0'>
+                  NO TEAM MEMBERS ASSIGNED TO TEAM \"". $selected_team ."\"
+                </td>
+              </tr>";
+          }
+          $rownum++;
+        }
+          echo "
+            </tbody>
+            <tfoot>
+            </tfoot>
+            </table>
+            <input type=\"submit\" id=\"capacity-button-blue\" name=\"submit0\" value=\"Submit\">
+            <input type=\"submit\" id=\"capacity-button-blue\" name=\"restore\" value=\"Restore Defaults\">
+            <input type=\"button\" id=\"capacity-button-blue\" name=\"showNext\" onclick=\"scrollWin();\" value=\"Show Next Iteration\">
+            <input type=\"hidden\" name=\"current-team-selected\" value=\"". $selected_team ."?>\">
+            <input type=\"hidden\" name=\"current-sequence\" value=\"". $sequence ."?>\">
+            </form>
+            </td>
+            </tr>
+            </table>";
+        }
+      ?>
 
       <div id="capacity-footnote">
         Note 1: Closed Iterations will NOT be shown.  The capacity cannot be changed for such iterations.  Show only the active iterations.<br/>
@@ -252,7 +411,7 @@
 
         $(document).ready(function () {
 
-            $('#info').DataTable({
+            $('table.capacity-table').dataTable({
                 paging: false,
                 searching: false,
                 infoCallback: false
