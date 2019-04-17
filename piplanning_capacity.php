@@ -117,7 +117,7 @@
       $default_data = true;
       $default_total = 0;
 
-      $sql = "SELECT * FROM `membership` where team_id='".$selected_team."';";
+      $sql = "SELECT * FROM `membership` where team_name='".$selected_team."';";
       $result = $db->query($sql);
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
