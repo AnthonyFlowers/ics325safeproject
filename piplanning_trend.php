@@ -26,10 +26,13 @@
          dataPoints: [
            <?php
             $art_result = get_teams_by_type("ART");
+            $total = 0;
             // Add data for each team
             while($art = $art_result->fetch_assoc()){
+              $total += $art['total'];
               echo "{ y: ". $art['total'] .", label:\"". $art['team_name'] ."\"},\n";
             }
+            echo "{ y: ". $total .", label:\"Total\"},\n";
            ?>
          ]
        }
@@ -55,9 +58,12 @@
             if (isset($GLOBALS['parent_name'])){
               $teams = get_teams_by_parent_name(isset($GLOBALS['parent_name']));
             }
+            $total = 0;
             while($art = $teams->fetch_assoc()){
+              $total += $art['total'];
               echo "{ y: ". $art['total'] .", label:\"". $art['team_name'] ."\"},\n";
             }
+            echo "{ y: ". $total .", label:\"Total\"},\n";
            ?>
          ]
        }
