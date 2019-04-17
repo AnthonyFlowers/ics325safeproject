@@ -167,16 +167,15 @@
             <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
             <?php
               //$sql = "SELECT team_id, team_name FROM `capacity` where program_increment='".$program_increment."';";
-              $sql = "SELECT team_id, parent_name FROM `trains_and_teams` where type='AT';";
+              $sql = "SELECT team_id, parent_name, team_name FROM `trains_and_teams` where type='AT';";
               $result = $db->query($sql);
 
               if ($result->num_rows > 0) {
-
                   while ($row = $result->fetch_assoc()) {
                     if ( trim($selected_team) == trim($row["team_id"]) ) {
-                      echo '<option value="'.$row["team_id"].'" selected>('.$row["team_id"].': '.$row["parent_name"].')</option>';
+                      echo '<option value="'.$row["team_id"].'" selected>'.$row["team_name"].'</option>';
                     } else {
-                      echo '<option value="'.$row["team_id"].'">('.$row["team_id"].': '.$row["parent_name"].')</option>';
+                      echo '<option value="'.$row["team_id"].'">'.$row["team_name"].'</option>';
                     }
 
                   }
