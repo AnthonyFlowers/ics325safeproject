@@ -7,12 +7,13 @@
   global $db;
 
   if(isset($_POST['programIID'])){
-    $globals['curPIID'] = $_POST['programIID'];
+    $GLOBALS['curPIID'] = $_POST['programIID'];
   }
 
   if(isset($_POST['parent_name'])){
-    $globalc['parent_name'] = isset($_POST['parent_name']);
-    // echo $_POST['parent_name'];
+    $GLOBALS['parent_name'] = $_POST['parent_name'];
+    $_SESSION['parent_name'] = $_POST['parent_name'];
+    // echo $globals['parent_name'];
   }
 
   ?>
@@ -59,7 +60,7 @@
                     if((isset($_POST['parent_name']) && $_POST['parent_name'] == $art['team_id']) || ($first_art && !isset($_POST['parent_name']))){
                       $is_selected = "color: red;";
                       $first_art = false;
-                      $globals['parent_name'] = $art["team_id"];
+                      $GLOBALS['parent_name'] = $art["team_id"];
                     }
                     echo "<tr>" .
                           "<td><input class=\"remove-input-style\" type=\"radio\" id=\"". $art["team_id"] ."\" name=\"parent_name\" value=\"". $art['team_id'] ."\" onchange=\"this.form.submit()\" hidden>".
@@ -92,8 +93,8 @@
               $total_capacity = 0;
               if(isset($_POST['parent_name'])){
                 $at_result = get_teams_by_parent_name($_POST['parent_name']);
-              } else if (isset($globals['parent_name'])){
-                $at_result = get_teams_by_parent_name($globals['parent_name']);
+              } else if (isset($GLOBALS['parent_name'])){
+                $at_result = get_teams_by_parent_name($GLOBALS['parent_name']);
               } else {
                 $at_result = null;
               }

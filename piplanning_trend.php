@@ -54,10 +54,8 @@
          indexLabelOrientation: "horizontal",
          dataPoints: [
            <?php
-            $teams = get_teams_by_parent_name("ART-602");
-            if (isset($GLOBALS['parent_name'])){
-              $teams = get_teams_by_parent_name(isset($GLOBALS['parent_name']));
-            }
+            // $teams = "";
+            $teams = get_teams_by_parent_name($GLOBALS['parent_name']);
             $total = 0;
             while($art = $teams->fetch_assoc()){
               $total += $art['total'];
@@ -71,7 +69,7 @@
     });
 
     chart.render();
-	chart2.render();
+    chart2.render();
 
   }
   </script>
