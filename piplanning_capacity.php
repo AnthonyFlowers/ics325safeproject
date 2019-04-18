@@ -158,47 +158,33 @@
         <tr>
           <td width="25%" style="vertical-align: top; font-weight: bold; color: #01B0F1; line-height: 130%; font-size: 18px;">
             <form method="post" action="#">
-              Program Increment (PI): &emsp; <br/>
-              Agile Release Train: &emsp; <br/>
-              Team: &emsp; <br/>
-                <input type="submit" id="capacity-button-blue" name="submit0" value="Generate">
-              </td>
-              <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
-                <?php
-                  echo "&nbsp;".$program_increment."<br/>";
-                ?>
-                <select name="agile-release-train" onchange="this.form.submit()" style="border: 0; text-align: left;">
-                  <?php
-                    $agile_release_trains = get_teams_by_type("ART");
-                    // if ($agile_release_trains->num_rows > 0){
-                      while ($row = $agile_release_trains->fetch_assoc()){
-                        echo '<option value="' . $row['team_id'] . '">' .
-                              $row['team_id'] .
-                              '</option>';
-                      }
-                    // }
-                   ?>
-                </select><br/>
-              <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
-                <?php
-                  //$sql = "SELECT team_id, team_name FROM `capacity` where program_increment='".$program_increment."';";
-                $sql = "SELECT team_id, parent_name, team_name FROM `trains_and_teams` where type='AT';";
-                $result = $db->query($sql);
+            Team: &emsp; <br/>
+            Program Increment (PI): &emsp; <br/>
+              <input type="submit" id="capacity-button-blue" name="submit0" value="Generate">
+          </td>
+          <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
+            <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
+            <?php
+              //$sql = "SELECT team_id, team_name FROM `capacity` where program_increment='".$program_increment."';";
+              $sql = "SELECT team_id, parent_name, team_name FROM `trains_and_teams` where type='AT';";
+              $result = $db->query($sql);
 
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                      if ( trim($selected_team) == trim($row["team_id"]) ) {
-                        echo '<option value="'.$row["team_id"].'" selected>'.$row["team_name"].'</option>';
-                      } else {
-                        echo '<option value="'.$row["team_id"].'">'.$row["team_name"].'</option>';
-                      }
-
+              if ($result->num_rows > 0) {
+                  while ($row = $result->fetch_assoc()) {
+                    if ( trim($selected_team) == trim($row["team_id"]) ) {
+                      echo '<option value="'.$row["team_id"].'" selected>'.$row["team_name"].'</option>';
+                    } else {
+                      echo '<option value="'.$row["team_id"].'">'.$row["team_name"].'</option>';
                     }
-                }
-                ?>
-              </select>
-              </form><br/>
 
+                  }
+              }
+              ?>
+            </select>
+          </form><br/>
+          <?php
+            echo "&nbsp;".$program_increment."<br/>";
+          ?>
           </td>
           <td width="50%"  style="font-weight: bold;">
             <?php
@@ -396,7 +382,7 @@
             </tfoot>
             </table>
             <input type=\"submit\" id=\"capacity-button-blue\" name=\"submit0\" value=\"Submit\">
-            <input type=\"submit\" id=\"capacity-button-blue\" name=\"restore\" value=\"Restore Defaults\">
+            <input type=\"button\" id=\"capacity-button-blue\" name=\"restore\" onclick =\"this.form.reset();\" value=\"Restore Defaults\">
             <input type=\"button\" id=\"capacity-button-blue\" name=\"showNext\" onclick=\"scrollWin();\" value=\"Show Next Iteration\">
             <input type=\"hidden\" name=\"current-team-selected\" value=\"". $selected_team ."?>\">
             <input type=\"hidden\" name=\"current-sequence\" value=\"". $sequence ."?>\">
@@ -465,3 +451,4 @@
     </script>
 
 <?php include("./footer.php"); ?>
+
