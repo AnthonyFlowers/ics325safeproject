@@ -32,7 +32,7 @@
               $total += $art['total'];
               echo "{ y: ". $art['total'] .", label:\"". $art['team_name'] ."\"},\n";
             }
-            echo "{ y: ". $total .", label:\"Total\"},\n";
+            echo "{ y: ". $total .", label:\"TOTAL\"},\n";
            ?>
          ]
        }
@@ -61,7 +61,7 @@
               $total += $art['total'];
               echo "{ y: ". $art['total'] .", label:\"". $art['team_name'] ."\"},\n";
             }
-            echo "{ y: ". $total .", label:\"Total\"},\n";
+            echo "{ y: ". $total .", label:\"TOTAL\"},\n";
            ?>
          ]
        }

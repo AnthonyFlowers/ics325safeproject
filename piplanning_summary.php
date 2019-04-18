@@ -75,7 +75,7 @@
                         "<td>". $total_capacity ."</td>" .
                        "</tr>";
                 } else {
-                  echo "<tr><td colspan='2' style='text-align: center;'>No teams found</td></tr>";
+                  echo "<tr><td colspan='2' style='text-align: center;'>No trains found</td></tr>";
                 }
 
               ?>

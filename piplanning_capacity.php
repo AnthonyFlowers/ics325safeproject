@@ -137,7 +137,6 @@
         }
       }
     }
-
   }
   // Set default selected_team
   if (!isset($_POST['select-team']) && !isset($_POST['current-team-selected'])) {
