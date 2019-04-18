@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2019 at 01:45 AM
+-- Generation Time: Apr 18, 2019 at 03:21 AM
 -- Server version: 10.1.37-MariaDB
--- PHP Version: 7.3.1
+-- PHP Version: 7.0.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -139,61 +139,55 @@ CREATE TABLE `capacity` (
 --
 
 INSERT INTO `capacity` (`id`, `team_id`, `team_name`, `program_increment`, `iteration_1`, `iteration_2`, `iteration_3`, `iteration_4`, `iteration_5`, `iteration_6`, `total`) VALUES
-(1, 'AT-800', 'Alligators', 'PI-1901', 72, 72, 72, 72, 72, 72, 432),
-(2, 'AT-800', 'Alligators', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(3, 'AT-800', 'Alligators', 'PI-1903', 72, 72, 72, 72, 72, 72, 432),
-(4, 'AT-800', 'Alligators', 'PI-1904', 72, 72, 72, 72, 72, 72, 432),
-(5, 'AT-800', 'Alligators', 'PI-1905', 0, 0, 0, 0, 0, 0, 0),
-(11, 'ART-400', 'Agile Team 700', 'PI-1902', 72, 72, 72, 72, 72, 72, 400),
-(12, 'ART-400', 'Agile Team 701', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(18, 'ART-401', 'Agile Team 702', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
-(24, 'ART-401', 'Agile Team 703', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
-(30, 'ART-402', 'Agile Team 704', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
-(36, 'ART-403', 'Agile Team 705', 'PI-1908', 72, 72, 72, 72, 72, 72, 432),
-(42, 'ART-403', 'Agile Team 706', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
-(48, 'ART-403', 'Agile Team 707', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
-(54, 'ART-403', 'Agile Team 708', 'PI-2002', 72, 72, 72, 72, 72, 72, 432),
-(60, 'ART-404', 'Agile Team 709', 'PI-2002', 72, 72, 72, 72, 72, 72, 432),
-(66, 'ART-405', 'Agile Team 710', 'PI-2005', 72, 72, 72, 72, 72, 72, 432),
-(72, 'ST-100', 'Agile Release Train  400 (ST100)', 'PI-2005', 0, 0, 0, 0, 0, 0, 0),
-(78, 'ST-100', 'Agile Release Train  401 (ST100)', 'PI-2005', 72, 72, 72, 72, 72, 72, 432),
-(84, 'ST-100', 'Agile Release Train  402 (ST100)', 'PI-2008', 72, 72, 72, 72, 72, 72, 432),
-(90, 'ST-100', 'Agile Release Train  403 (ST100)', 'PI-2011', 72, 72, 72, 72, 72, 72, 432),
-(96, 'ST-100', 'Agile Release Train  404 (ST100)', 'PI-2012', 72, 72, 72, 72, 72, 72, 432),
-(102, 'ST-100', 'Agile Release Train  405 (ST100) XYZ', 'PI-2102', 72, 72, 72, 72, 72, 72, 432),
-(108, 'ST-200', 'Agile Release Train  500 (ST200)', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(114, 'ST-200', 'Agile Release Train  501 (ST200)', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(120, 'ST-200', 'Agile Release Train  502 (ST200)', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
-(126, 'ST-200', 'Agile Release Train  503 (ST200)', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
-(132, 'ST-200', 'Agile Release Train  504 (ST200)', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
-(138, 'ST-300', 'Agile Release Train  600 (ST300)', 'PI-1908', 72, 72, 72, 72, 72, 72, 432),
-(144, 'ST-300', 'Agile Release Train  601 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
-(150, 'ST-300', 'Agile Release Train  602 (ST300)', 'PI-1911', 72, 72, 72, 72, 72, 72, 400),
-(156, 'ART-600', '800 Agile Team', 'PI-2002', 72, 72, 72, 72, 72, 72, 432),
-(162, 'ART-601', '801 Agile Team', 'PI-2002', 72, 72, 72, 72, 72, 72, 432),
-(168, 'ART-601', '802 Agile Team', 'PI-2005', 72, 72, 72, 72, 72, 72, 432),
-(174, 'ART-600', '803 Agile Team', 'PI-2005', 72, 72, 72, 72, 72, 72, 432),
-(180, 'ART-601', '804 Agile Team', 'PI-2005', 72, 72, 72, 72, 72, 72, 432),
-(186, 'ART-602', '805 Agile Team', 'PI-2008', 72, 72, 72, 72, 72, 72, 432),
-(192, 'ART-600', '806 Agile Team', 'PI-2011', 72, 72, 72, 72, 72, 72, 432),
-(198, 'ART-602', '807 Agile Team', 'PI-2012', 72, 72, 72, 72, 72, 72, 432),
-(204, 'ART-602', '808 Agile Team', 'PI-2102', 72, 72, 72, 72, 72, 72, 432),
-(210, 'ART-600', '809 Agile Team', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(216, 'ART-602', '810 Agile Team', 'PI-1902', 72, 72, 72, 72, 72, 72, 432),
-(222, 'ART-500', 'Agile Team 1000 1', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
-(228, 'ART-504', 'Agile Team 1000 10', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
-(234, 'ART-501', 'Agile Team 1000 2', 'PI-1905', 72, 72, 72, 72, 72, 72, 432),
-(240, 'ART-502', 'Agile Team 1000 3', 'PI-1908', 72, 72, 72, 72, 72, 72, 432),
-(246, 'ART-503', 'Agile Team 1000 4', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
-(252, 'ART-504', 'Agile Team 1000 5', 'PI-1911', 72, 72, 72, 72, 72, 72, 432),
-(258, 'ART-500', 'Agile Team 1000 6', 'PI-2002', 72, 72, 72, 72, 72, 72, 432),
-(264, 'ART-501', 'Agile Team 1000 7', 'PI-2002', 72, 72, 72, 72, 72, 72, 432),
-(270, 'ART-502', 'Agile Team 1000 8', 'PI-2005', 72, 72, 72, 72, 72, 72, 432),
-(276, 'ART-503', 'Agile Team 1000 9', 'PI-2005', 72, 72, 72, 72, 72, 72, 432),
-(282, 'NA', 'Solution Train 100', 'PI-2005', 72, 72, 72, 72, 72, 72, 432),
-(288, 'NA', 'Solution Train 200', 'PI-2008', 72, 72, 72, 72, 72, 72, 432),
-(294, 'NA', 'Solution Train 300', 'PI-2011', 72, 72, 72, 72, 72, 72, 432),
-(300, 'ART-400', 'Agile Team 700', 'PI-1902', 72, 72, 72, 72, 72, 72, 432);
+(6, 'ART-400', 'Agile Team 700', 'PI-1902', 50, 32, 71, 60, 54, 29, 296),
+(12, 'ART-400', 'Agile Team 701', 'PI-1902', 13, 29, 30, 35, 34, 49, 190),
+(18, 'ART-401', 'Agile Team 702', 'PI-1905', 90, 16, 36, 58, 20, 20, 240),
+(24, 'ART-401', 'Agile Team 703', 'PI-1905', 59, 65, 61, 36, 57, 66, 344),
+(30, 'ART-402', 'Agile Team 704', 'PI-1905', 38, 37, 16, 25, 23, 57, 196),
+(36, 'ART-403', 'Agile Team 705', 'PI-1908', 58, 27, 58, 74, 73, 77, 367),
+(42, 'ART-403', 'Agile Team 706', 'PI-1911', 30, 57, 18, 48, 69, 68, 290),
+(48, 'ART-403', 'Agile Team 707', 'PI-1911', 54, 67, 52, 29, 77, 79, 358),
+(54, 'ART-403', 'Agile Team 708', 'PI-2002', 44, 41, 49, 65, 47, 51, 297),
+(60, 'ART-404', 'Agile Team 709', 'PI-2002', 55, 11, 27, 44, 43, 21, 201),
+(66, 'ART-405', 'Agile Team 710', 'PI-2005', 51, 73, 29, 28, 28, 41, 250),
+(72, 'ST-100', 'Agile Release Train  400 (ST100)', 'PI-2005', 36, 42, 60, 78, 15, 35, 266),
+(78, 'ST-100', 'Agile Release Train  401 (ST100)', 'PI-2005', 49, 70, 49, 19, 79, 13, 279),
+(84, 'ST-100', 'Agile Release Train  402 (ST100)', 'PI-2008', 61, 63, 27, 78, 64, 37, 330),
+(90, 'ST-100', 'Agile Release Train  403 (ST100)', 'PI-2011', 16, 44, 29, 17, 74, 74, 254),
+(96, 'ST-100', 'Agile Release Train  404 (ST100)', 'PI-2012', 63, 57, 65, 46, 62, 31, 324),
+(102, 'ST-100', 'Agile Release Train  405 (ST100) XYZ', 'PI-2102', 54, 79, 57, 48, 22, 41, 301),
+(108, 'ST-200', 'Agile Release Train  500 (ST200)', 'PI-1902', 54, 72, 44, 72, 44, 29, 315),
+(114, 'ST-200', 'Agile Release Train  501 (ST200)', 'PI-1902', 11, 72, 53, 14, 70, 57, 277),
+(120, 'ST-200', 'Agile Release Train  502 (ST200)', 'PI-1905', 28, 27, 68, 12, 79, 39, 253),
+(126, 'ST-200', 'Agile Release Train  503 (ST200)', 'PI-1905', 63, 34, 26, 77, 66, 35, 301),
+(132, 'ST-200', 'Agile Release Train  504 (ST200)', 'PI-1905', 18, 54, 25, 72, 57, 63, 289),
+(138, 'ST-300', 'Agile Release Train  600 (ST300)', 'PI-1908', 51, 74, 20, 74, 20, 29, 268),
+(144, 'ST-300', 'Agile Release Train  601 (ST300)', 'PI-1911', 16, 25, 13, 60, 11, 67, 192),
+(150, 'ST-300', 'Agile Release Train  602 (ST300)', 'PI-1911', 68, 34, 21, 34, 18, 61, 236),
+(156, 'ART-600', '800 Agile Team', 'PI-2002', 42, 78, 49, 14, 11, 24, 218),
+(162, 'ART-601', '801 Agile Team', 'PI-2002', 62, 66, 16, 36, 53, 31, 264),
+(168, 'ART-601', '802 Agile Team', 'PI-2005', 14, 19, 17, 69, 73, 65, 257),
+(174, 'ART-600', '803 Agile Team', 'PI-2005', 35, 19, 65, 23, 29, 65, 236),
+(180, 'ART-601', '804 Agile Team', 'PI-2005', 39, 67, 54, 70, 49, 74, 353),
+(186, 'ART-602', '805 Agile Team', 'PI-2008', 69, 77, 16, 28, 11, 28, 229),
+(192, 'ART-600', '806 Agile Team', 'PI-2011', 67, 71, 43, 24, 47, 75, 327),
+(198, 'ART-602', '807 Agile Team', 'PI-2012', 17, 16, 77, 50, 77, 13, 250),
+(204, 'ART-602', '808 Agile Team', 'PI-2102', 55, 60, 39, 39, 38, 72, 303),
+(210, 'ART-600', '809 Agile Team', 'PI-1902', 27, 26, 57, 60, 32, 10, 212),
+(216, 'ART-602', '810 Agile Team', 'PI-1902', 43, 51, 77, 21, 16, 18, 226),
+(222, 'ART-500', 'Agile Team 1000 1', 'PI-1905', 33, 30, 75, 52, 54, 17, 261),
+(228, 'ART-504', 'Agile Team 1000 10', 'PI-1905', 42, 74, 72, 68, 67, 44, 367),
+(234, 'ART-501', 'Agile Team 1000 2', 'PI-1905', 49, 69, 32, 63, 33, 59, 305),
+(240, 'ART-502', 'Agile Team 1000 3', 'PI-1908', 32, 32, 60, 65, 55, 78, 322),
+(246, 'ART-503', 'Agile Team 1000 4', 'PI-1911', 51, 17, 74, 58, 18, 79, 297),
+(252, 'ART-504', 'Agile Team 1000 5', 'PI-1911', 69, 20, 26, 36, 55, 57, 263),
+(258, 'ART-500', 'Agile Team 1000 6', 'PI-2002', 13, 50, 39, 66, 65, 54, 287),
+(264, 'ART-501', 'Agile Team 1000 7', 'PI-2002', 39, 43, 74, 22, 66, 20, 264),
+(270, 'ART-502', 'Agile Team 1000 8', 'PI-2005', 14, 32, 42, 31, 69, 60, 248),
+(276, 'ART-503', 'Agile Team 1000 9', 'PI-2005', 64, 16, 47, 64, 74, 42, 307),
+(282, 'NA', 'Solution Train 100', 'PI-2005', 55, 23, 35, 20, 33, 78, 244),
+(288, 'NA', 'Solution Train 200', 'PI-2008', 26, 37, 79, 16, 41, 72, 271),
+(294, 'NA', 'Solution Train 300', 'PI-2011', 52, 19, 56, 39, 13, 34, 213);
 
 -- --------------------------------------------------------
 
@@ -382,12 +376,12 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`number`, `last_name`, `first_name`, `status`, `exempt`, `work_city`, `work_ctry`, `cost_center`, `cost_center_manager`, `managers_first_name`, `managers_last_name`, `admin_name`, `email_address`, `level_3_mgr_last_name`, `level_3_mgr_first_name`, `primary_project`, `secondary_project`, `org`, `managers_number`, `lvl_3_mgr_number`) VALUES
-(1, 'last name 01', 'first name 01', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '01', 'manager 01', 'manager 01'),
-(2, 'last name 02', 'first name 02', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '02', 'manager 02', 'manager 02'),
-(3, 'last name 03', 'first name 03', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '03', 'manager 03', 'manager 03'),
-(4, 'last name 04', 'first name 04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '04', 'manager 04', 'manager 04'),
-(5, 'last name 05', 'first name 05', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '05', 'manager 05', 'manager 05'),
-(6, 'last name 06', 'first name 06', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '06', 'manager 06', 'manager 06'),
+(1, 'Bradley', 'Ryan', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '01', 'manager 01', 'manager 01'),
+(2, 'Tejada', 'Christian', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '02', 'manager 02', 'manager 02'),
+(3, 'Flowers', 'Anthony', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '03', 'manager 03', 'manager 03'),
+(4, 'Read', 'Mia', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '04', 'manager 04', 'manager 04'),
+(5, 'Adams', 'Kristy', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '05', 'manager 05', 'manager 05'),
+(6, 'Johnson', 'Mike', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '06', 'manager 06', 'manager 06'),
 (7, 'last name 07', 'first name 07', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '07', 'manager 07', 'manager 07'),
 (8, 'last name 08', 'first name 08', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '08', 'manager 08', 'manager 08'),
 (9, 'last name 09', 'first name 09', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '09', 'manager 09', 'manager 09'),
@@ -435,12 +429,12 @@ CREATE TABLE `membership` (
 --
 
 INSERT INTO `membership` (`art_name`, `team_name`, `employee_name`, `polarion_id`, `role`) VALUES
-('Agile Team 700', 'AT-800', 'last name 01 first name 01', '01', 'PO'),
-('Agile Team 701', 'AT-800', 'last name 02 first name 02', '02', 'SM'),
-('Agile Team 702', 'AT-800', 'last name 03 first name 03', '03', 'Developer'),
-('Agile Team 703', 'AT-800', 'last name 04 first name 04', '04', 'Developer'),
-('Agile Team 704', 'AT-800', 'last name 05 first name 05', '05', 'Developer'),
-('Agile Team 705', 'AT-800', 'last name 06 first name 06', '06', 'Developer');
+('Agile Team 700', 'AT-800', 'Bradley Ryan', '01', 'PO'),
+('Agile Team 701', 'AT-800', 'Tejada Christian', '02', 'SM'),
+('Agile Team 702', 'AT-800', 'Flowers Anthony', '03', 'Developer'),
+('Agile Team 703', 'AT-800', 'Read Mia', '04', 'Developer'),
+('Agile Team 704', 'AT-800', 'Adams Kristy', '05', 'Developer'),
+('Agile Team 705', 'AT-800', 'Johnson Mike', '06', 'Developer');
 
 -- --------------------------------------------------------
 
@@ -488,7 +482,7 @@ INSERT INTO `preferences` (`id`, `name`, `value`, `comments`) VALUES
 (26, 'PRODUCT_OWNER_SUPPORTS_MULTIPLE_TEAMS_SA', 'TRUE', ''),
 (27, 'PRODUCT_OWNER_SUPPORTS_MULTIPLE_TEAMS_OR', 'TRUE', ''),
 (28, 'BASE_URL', 'https://metro', ''),
-(29, 'DEFAULT_ART', 'ART-601', '');
+(29, 'DEFAULT_ART', 'ART-502', '');
 
 -- --------------------------------------------------------
 
@@ -730,7 +724,7 @@ ALTER TABLE `cadence`
 -- AUTO_INCREMENT for table `capacity`
 --
 ALTER TABLE `capacity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=295;
 
 --
 -- AUTO_INCREMENT for table `users`
