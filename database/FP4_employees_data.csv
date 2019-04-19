@@ -1,19 +1,66 @@
-01,last name 01,first name 01,,,,,,,,,,,,,,,01,manager 01,manager 01
-02,last name 02,first name 02,,,,,,,,,,,,,,,02,manager 02,manager 02
-03,last name 03,first name 03,,,,,,,,,,,,,,,03,manager 03,manager 03
-04,last name 04,first name 04,,,,,,,,,,,,,,,04,manager 04,manager 04
-05,last name 05,first name 05,,,,,,,,,,,,,,,05,manager 05,manager 05
-06,last name 06,first name 06,,,,,,,,,,,,,,,06,manager 06,manager 06
-07,last name 07,first name 07,,,,,,,,,,,,,,,07,manager 07,manager 07
-08,last name 08,first name 08,,,,,,,,,,,,,,,08,manager 08,manager 08
-09,last name 09,first name 09,,,,,,,,,,,,,,,09,manager 09,manager 09
-10,last name 10,first name 10,,,,,,,,,,,,,,,10,manager 10,manager 10
-11,last name 11,first name 11,,,,,,,,,,,,,,,11,manager 11,manager 11
-12,last name 12,first name 12,,,,,,,,,,,,,,,12,manager 12,manager 12
-13,last name 13,first name 13,,,,,,,,,,,,,,,13,manager 13,manager 13
-14,last name 14,first name 14,,,,,,,,,,,,,,,14,manager 14,manager 14
-15,last name 15,first name 15,,,,,,,,,,,,,,,15,manager 15,manager 15
-16,last name 16,first name 16,,,,,,,,,,,,,,,16,manager 16,manager 16
-17,last name 17,first name 17,,,,,,,,,,,,,,,17,manager 17,manager 17
-18,last name 18,first name 18,,,,,,,,,,,,,,,18,manager 18,manager 18
-19,last name 19,first name 19,,,,,,,,,,,,,,,19,manager 19,manager 19
+01,Bradley,Ryan,,,,,,,,,,,,,,,01,manager 01,manager 01
+02,Tejada,Christian,,,,,,,,,,,,,,,02,manager 02,manager 02
+03,Flowers,Anthony,,,,,,,,,,,,,,,03,manager 03,manager 03
+04,Read,Mia,,,,,,,,,,,,,,,04,manager 04,manager 04
+05,Adams,Kristy,,,,,,,,,,,,,,,05,manager 05,manager 05
+06,Johnson,Mike,,,,,,,,,,,,,,,06,manager 06,manager 06
+07,Vanjie,Vanessa,,,,,,,,,,,,,,,07,manager 07,manager 07
+08,Haydes,Brooklyn,,,,,,,,,,,,,,,08,manager 08,manager 08
+09,West,Nina,,,,,,,,,,,,,,,09,manager 09,manager 09
+10,Velour,Sasha,,,,,,,,,,,,,,,10,manager 10,manager 10
+11,Exchange,Monet,,,,,,,,,,,,,,,11,manager 11,manager 11
+12,Zamo,Katya,,,,,,,,,,,,,,,12,manager 12,manager 12
+13,Wentz,Pete,,,,,,,,,,,,,,,13,manager 13,manager 13
+14,Castillejo,Mo,,,,,,,,,,,,,,,14,manager 14,manager 14
+15,Mendoza,Seth,,,,,,,,,,,,,,,15,manager 15,manager 15
+16,Adams,Taylor,,,,,,,,,,,,,,,16,manager 16,manager 16
+17,Garay,Carlos,,,,,,,,,,,,,,,17,manager 17,manager 17
+18,Lomeli,Edgar,,,,,,,,,,,,,,,18,manager 18,manager 18
+19,Vargas,Albert,,,,,,,,,,,,,,,19,manager 19,manager 19
+20,Cook,Doug,,,,,,,,,,,,,,,20,manager 20,manager 20
+21,Serrato,Ben,,,,,,,,,,,,,,,21,manager 21,manager 21
+22,Fiske,Amanda,,,,,,,,,,,,,,,22,manager 22,manager 22
+23,Kampe,Chad,,,,,,,,,,,,,,,23,manager 23,manager 23
+24,Christmas,Shawn,,,,,,,,,,,,,,,24,manager 24,manager 24
+25,Wolfe,Jonathan,,,,,,,,,,,,,,,25,manager 25,manager 25
+26,Stuttgen,Oscar,,,,,,,,,,,,,,,26,manager 26,manager 26
+27,Ann,Bailey,,,,,,,,,,,,,,,27,manager 27,manager 27
+28,Odell,Kyle,,,,,,,,,,,,,,,28,manager 28,manager 28
+29,Farr,Shaka,,,,,,,,,,,,,,,29,manager 29,manager 29
+30,Porgie,Jorgie,,,,,,,,,,,,,,,30,manager 30,manager 30
+31,Nguyen,Barry,,,,,,,,,,,,,,,31,manager 31,manager 31
+32,Anderson,Alex,,,,,,,,,,,,,,,32,manager 32,manager 32
+33,Virgen,Carlos,,,,,,,,,,,,,,,33,manager 33,manager 33
+34,Bradley,Jake,,,,,,,,,,,,,,,34,manager 34,manager 34
+35,Duncan,Shaya,,,,,,,,,,,,,,,35,manager 35,manager 35
+36,Benton,Zach,,,,,,,,,,,,,,,36,manager 36,manager 36
+37,Walker,Paul,,,,,,,,,,,,,,,37,manager 37,manager 37
+38,Coffman,Kyle,,,,,,,,,,,,,,,38,manager 38,manager 38
+39,Haslerud,Glen,,,,,,,,,,,,,,,39,manager 39,manager 39
+40,Carline,Austin,,,,,,,,,,,,,,,40,manager 40,manager 40
+41,Craig,Heather,,,,,,,,,,,,,,,41,manager 41,manager 41
+42,Hayes,Armand,,,,,,,,,,,,,,,42,manager 42,manager 42
+43,Singleton,Kevin,,,,,,,,,,,,,,,43,manager 43,manager 43
+44,DeSantos,Charlie,,,,,,,,,,,,,,,44,manager 44,manager 44
+45,Taylor,Justin,,,,,,,,,,,,,,,45,manager 45,manager 45
+46,Bilich,Blake,,,,,,,,,,,,,,,46,manager 46,manager 46
+47,Nelson,Caleb,,,,,,,,,,,,,,,47,manager 47,manager 47
+48,Prada,Maria,,,,,,,,,,,,,,,48,manager 48,manager 48
+49,Robert,Dan,,,,,,,,,,,,,,,49,manager 49,manager 49
+50,Dean,Jeff,,,,,,,,,,,,,,,50,manager 50,manager 50
+51,Martin,Curtis,,,,,,,,,,,,,,,51,manager 51,manager 51
+52,Black,Will,,,,,,,,,,,,,,,52,manager 52,manager 52
+53,Bernardez,Justin,,,,,,,,,,,,,,,53,manager 53,manager 53
+54,Schorr,Jake,,,,,,,,,,,,,,,54,manager 54,manager 54
+55,Greer,Brady,,,,,,,,,,,,,,,55,manager 55,manager 55
+56,Smith,Dionte,,,,,,,,,,,,,,,56,manager 56,manager 56
+57,Torres,Ricardo,,,,,,,,,,,,,,,57,manager 57,manager 57
+58,Olzenak,Riley,,,,,,,,,,,,,,,58,manager 58,manager 58
+59,Grey,Christian,,,,,,,,,,,,,,,59,manager 59,manager 59
+60,Otto,Alex,,,,,,,,,,,,,,,60,manager 60,manager 60
+61,Banwell,Chad,,,,,,,,,,,,,,,61,manager 61,manager 61
+62,Drew,Dan,,,,,,,,,,,,,,,62,manager 62,manager 62
+63,Elliott,Nick,,,,,,,,,,,,,,,63,manager 63,manager 63
+64,Martin,Micah,,,,,,,,,,,,,,,64,manager 64,manager 64
+65,Reyes,Ian,,,,,,,,,,,,,,,65,manager 65,manager 65
+66,Anderson,Levi,,,,,,,,,,,,,,,66,manager 66,manager 66
