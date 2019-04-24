@@ -5,10 +5,10 @@
   include("./nav.php");
   global $db;
   date_default_timezone_set('America/Chicago');
-  $sql = "SELECT PI_id, iteration_id, sequence
+  $sql = "SELECT PI_id, iteration_id, sequence, start_date
           FROM `cadence`
-          WHERE start_date <= '" . date("Y-m-d") . "'
-          AND end_date >= '". date("Y-m-d") . "';";
+          WHERE end_date >= '" . date("Y-m-d") . "'
+          ORDER BY start_date;";
   // echo $sql;
   $result = $db->query($sql);
   if ($result->num_rows > 0) {
@@ -71,13 +71,16 @@
         $result->close();
       }
     }
-    $sql = "SELECT * FROM `capacity` where team_id='".$selected_team."' AND program_increment='".$program_increment."';";
+    $sql = "SELECT * FROM `capacity`
+            WHERE team_id='".$selected_team."'
+            AND program_increment='".$program_increment."';";
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
     } else {
       $default_data = true;
       $default_total = 0;
-      $sql = "SELECT * FROM `membership` where team_id='".$selected_team."';";
+      $sql = "SELECT * FROM `membership`
+              where team_id='".$selected_team."';";
       $result = $db->query($sql);
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -88,7 +91,8 @@
           } else  {
             $velType = "AGILE_TEAM_MEMBER_ALLOCATION";
           }
-          $sql2 = "SELECT * FROM `preferences` WHERE name='".$velType."';";
+          $sql2 = "SELECT * FROM `preferences`
+                   WHERE name='".$velType."';";
           $result2 = $db->query($sql2);
           if ($result2->num_rows > 0) {
               $row2 = $result2->fetch_assoc();
@@ -100,13 +104,17 @@
   }
   if (isset($_POST['select-team'])) {
     $selected_team = $_POST['select-team'];
-    $sql = "SELECT * FROM `capacity` where team_id='".$selected_team."' AND program_increment='".$program_increment."';";
+    $sql = "SELECT * FROM `capacity`
+            WHERE team_id='".$selected_team."'
+            AND program_increment='".$program_increment."';";
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
+
     } else {
       $default_data = true;
       $default_total = 0;
-      $sql = "SELECT * FROM `membership` where team_name='".$selected_team."';";
+      $sql = "SELECT * FROM `membership`
+              WHERE team_name='".$selected_team."';";
       $result = $db->query($sql);
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -117,7 +125,8 @@
           } else  {
             $velType = "AGILE_TEAM_MEMBER_ALLOCATION";
           }
-          $sql2 = "SELECT * FROM `preferences` WHERE name='".$velType."';";
+          $sql2 = "SELECT * FROM `preferences`
+                   WHERE name='".$velType."';";
           $result2 = $db->query($sql2);
           if ($result2->num_rows > 0) {
               $row2 = $result2->fetch_assoc();
@@ -129,11 +138,17 @@
   }
   // Set default selected_team
   if (!isset($_POST['select-team']) && !isset($_POST['current-team-selected'])) {
-    $sql = "SELECT team_id FROM `capacity` where program_increment='".$program_increment."' LIMIT 1;";
+    $sql = "SELECT t.team_id
+            FROM `capacity` c JOIN `trains_and_teams` t
+            WHERE c.team_id = t.parent_name
+            AND c.program_increment='".$program_increment."'
+            AND t.type = 'AT'
+            LIMIT 1;";
+
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $selected_team = $row["team_id"];
+      $row = $result->fetch_assoc();
+      $selected_team = $row["team_id"];
     }
   }
   ?>
@@ -148,13 +163,14 @@
             <form method="post" action="#">
             Team: &emsp; <br/>
             Program Increment (PI): &emsp; <br/>
-              
+
           </td>
           <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
             <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
             <?php
               //$sql = "SELECT team_id, team_name FROM `capacity` where program_increment='".$program_increment."';";
-              $sql = "SELECT team_id, parent_name, team_name FROM `trains_and_teams` where type='AT';";
+              $sql = "SELECT team_id, parent_name, team_name FROM `trains_and_teams`
+                      WHERE type='AT';";
               $result = $db->query($sql);
               if ($result->num_rows > 0) {
                   while ($row = $result->fetch_assoc()) {
@@ -167,21 +183,21 @@
               }
               ?>
             </select>
-			
+
 			 <select type="text" id="programIID" name="programIID" onchange="this.form.submit()" style="border: 0; text-align: left;" class="userInput">
 			<?php echo generate_pii_options(); ?>
 			</select><br>
-			
           </form><br/>
-		  
-			
           <?php
            // echo "&nbsp;".$program_increment."<br/>";
           ?>
           </td>
           <td width="50%"  style="font-weight: bold;">
             <?php
-              $sql = "SELECT * FROM `capacity` WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."'";
+              $sql = "SELECT * FROM `capacity` c JOIN `trains_and_teams` t
+                      WHERE c.team_id = t.parent_name
+                      AND program_increment='".$program_increment."'
+                      AND t.team_id='".$selected_team."'";
               $result = $db->query($sql);
               if ($result->num_rows > 0) {
                   $row = $result->fetch_assoc();
@@ -213,7 +229,7 @@
       <?php
         for ($it = 1; $it <= 6; $it++) {
           $iteration = str_replace('PI-', '', $program_increment). "-" . $it;
-          echo "<table width=\"95%\">";
+          echo "<table width=\"95%\" class=\"capacity-table-iterations\" id=\"capacity-table-" . $iteration . "\">";
           echo "<tr>";
           echo "<td width=\"25%\" style=\"vertical-align: bottom; font-weight: bold;
                                   color: #01B0F1; line-height: 130%;
@@ -234,8 +250,8 @@
           echo "<tr>";
           echo "<td colspan=\"3\">";
           echo "<form method=\"post\" action=\"#\" id=\"maincap\">";
-          echo "<table id=\"info\" cellpadding=\"2px\" cellspacing=\"0\"
-          border=\"0\" class=\"capacity-table\" width=\"100%\" style=\"width: 100%;
+          echo "<table cellpadding=\"2px\" cellspacing=\"0\"
+          border=\"0\" class=\"capacity-table info\" width=\"100%\" style=\"width: 100%;
           clear: both; font-size: 15px; margin: 8px 0 15px 0\">";
           echo "<thead>";
           echo "<tr id=\"capacity-table-first-row\">";
@@ -249,13 +265,14 @@
           echo "<tbody>";
           echo "</tr>";
           // Get duration
-          $sql5 = "SELECT * FROM `cadence` WHERE PI_id='" . $program_increment . "';";
+          $sql5 = "SELECT * FROM `cadence`
+                   WHERE PI_id='" . $program_increment . "';";
           $result5 = $db->query($sql5);
           if ($result5->num_rows > 0) {
               $row5 = $result5->fetch_assoc();
               $duration = $row5["duration"];
           }
-          if (isset($_POST['submit0'])) {
+          if (isset($_POST['submit0'])) { // This is where it would be submitted to the database
             $iterationcapacity = 0;
             for ($x=0; $x < count($_POST['rownum']); $x++){
               $teamcapacity[$_POST['rownum'][$x]] = round(($duration-$_POST['daysoff'][$x])*((100-$overhead_percentage)/100)*($_POST['velocity'][$x]/100));
@@ -282,13 +299,17 @@
               $velocity[$_POST['rownum'][$x]] = $_POST['velocity'][$x];
             }
           }
-          $sql6 = "SELECT * FROM `preferences` WHERE name='OVERHEAD_PERCENTAGE';";
+          $sql6 = "SELECT * FROM `preferences`
+                   WHERE name='OVERHEAD_PERCENTAGE';";
           $result6 = $db->query($sql6);
           if ($result6->num_rows > 0) {
               $row6 = $result6->fetch_assoc();
               $overhead_percentage = $row6["value"];
           }
-          $sql = "SELECT * FROM `capacity` WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."'";
+          $sql = "SELECT * FROM `capacity` c JOIN `trains_and_teams` t
+                  WHERE c.team_id = t.parent_name
+                  AND program_increment='".$program_increment."'
+                  AND t.team_id='".$selected_team."'";
           $result = $db->query($sql);
           if ($result->num_rows > 0) {
               $row = $result->fetch_assoc();
@@ -314,7 +335,8 @@
                   AND team_name='".$selected_team."';";
           $result = $db->query($sql);
           $rownum = 0;
-          while ($row = $result->fetch_assoc()) {
+          // echo "<h1>" . $selected_team . "</h1>";
+          while ($row = $result->fetch_assoc()) { // Add team members to table
             if (strpos($row["role"], "SM") !== false) {
               $velocityType = "SCRUM_MASTER_ALLOCATION";
             } else if (strpos($row["role"], "PO") !== false) {
@@ -322,7 +344,8 @@
             } else  {
               $velocityType = "AGILE_TEAM_MEMBER_ALLOCATION";
             }
-            $sql2 = "SELECT * FROM `preferences` WHERE name='".$velocityType."';";
+            $sql2 = "SELECT * FROM `preferences`
+                     WHERE name='".$velocityType."';";
             $result2 = $db->query($sql2);
             if ($result2->num_rows > 0) {
                 $row2 = $result2->fetch_assoc();
@@ -369,7 +392,7 @@
             <tfoot>
             </tfoot>
             </table>
-			<input type=\"button\" id=\"capacity-button-blue\" name=\"generate\" value=\"Generate\">
+            <input type=\"button\" id=\"capacity-button-blue\" name=\"generate\" value=\"Generate\">
             <input type=\"submit\" id=\"capacity-button-blue\" name=\"submit1\" value=\"Submit\">
             <input type=\"button\" id=\"capacity-button-blue\" name=\"restore\" onclick =\"this.form.reset();\" value=\"Restore Defaults\">
             <input type=\"button\" id=\"capacity-button-blue\" name=\"showNext\" onclick=\"scrollWin();\" value=\"Show Next Iteration\">
@@ -405,27 +428,41 @@
         function autoForm() {
           document.getElementById('maincap').submit();
         }
+        function resetForm(form){
+          aotoLoad();
+          form.reset();
+        }
+        $(".capacity-table-iterations").bind("reset", function(){
+          autoLoad();
+        });
+
         function autoLoad() {
-          var velocity = $("input[name='velocity[]']")
-              .map(function(){return $(this).val();}).get();
-          var daysoff = $("input[name='daysoff[]']")
-              .map(function(){return $(this).val();}).get();
-          var rownum = $("input[name='rownum[]']")
-              .map(function(){return $(this).val();}).get();
-          var overhead = "<?php echo $overhead_percentage ?>";
-          var duration = "<?php echo $duration ?>";
-          var value = "<?php echo $valueForJS ?>";
-          var totalcap_old = "<?php echo $totalcapacity ?>";
-          var icap_old = "<?php echo $icapacity ?>";
-          var icap = 0;
-          for (var i in rownum) {
-              var storypts = Math.round( ( duration - daysoff[i] ) * ( ( 100-overhead ) / 100 ) * ( velocity[i] / 100 ) );
-              $("input[name='storypoints[]']").eq(i).val(storypts);
-              icap += storypts;
-          }
-          document.getElementsByName("icap")[0].innerHTML = icap;
-          var capdiff = icap - icap_old;
-          var tcap = parseInt(capdiff) + parseInt(totalcap_old);
+          var tcap = 0;
+          $(".capacity-table-iterations").each(function(){
+            var velocity = $(this).find("input[name='velocity[]']")
+                .map(function(){return $(this).val();}).get();
+            var daysoff = $(this).find("input[name='daysoff[]']")
+                .map(function(){return $(this).val();}).get();
+            var rownum = $(this).find("input[name='rownum[]']")
+                .map(function(){return $(this).val();}).get();
+            var overhead = "<?php echo $overhead_percentage ?>";
+            var duration = "<?php echo $duration ?>";
+            var value = "<?php echo $valueForJS ?>";
+            var totalcap_old = "<?php echo $totalcapacity ?>";
+            var icap_old = "<?php echo $icapacity ?>";
+            var icap = 0;
+            for (var i in rownum) {
+                var storypts = Math.round( ( duration - daysoff[i] ) * ( ( 100-overhead ) / 100 ) * ( velocity[i] / 100 ) );
+                $(this).find("input[name='storypoints[]']").eq(i).val(storypts);
+                icap += storypts;
+                // tcap += storypts;
+            }
+            tcap += parseInt(icap);
+            $(this).find("div[name='icap']")[0].innerHTML = icap;
+            // document.getElementsByName("icap")[0].innerHTML = icap;
+            var capdiff = icap - icap_old;
+            // var tcap = parseInt(capdiff) + parseInt(totalcap_old);
+          });
           document.getElementsByName("totalcap")[0].innerHTML = tcap;
         }
     </script>
