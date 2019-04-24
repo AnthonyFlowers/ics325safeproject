@@ -109,7 +109,6 @@
             AND program_increment='".$program_increment."';";
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
-
     } else {
       $default_data = true;
       $default_total = 0;
@@ -166,6 +165,7 @@
 
           </td>
           <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
+            <!-- Team Select Dropdown -->
             <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
               <?php
                 $sql = "SELECT team_id, parent_name, team_name FROM `trains_and_teams`
@@ -182,7 +182,7 @@
                 }
               ?>
             </select>
-
+            <!-- Program Increment Dropdown -->
             <select type="text" id="programIID" name="programIID" onchange="this.form.submit()" style="border: 0; text-align: left;" class="userInput">
               <?php echo generate_pii_options(); ?>
             </select><br>
@@ -224,7 +224,13 @@
 
       <?php
         for ($it = 1; $it <= 6; $it++) {
-          $iteration = str_replace('PI-', '', $program_increment). "-" . $it;
+          // Check if a program increment id was selected
+          // Use current/next increment otherwise
+          if (isset($_POST['programIID'])){
+            $iteration = str_replace('PI-', '', $_POST['programIID']). "-" . $it;
+          } else {
+            $iteration = str_replace('PI-', '', $program_increment). "-" . $it;
+          }
           echo "<table width=\"95%\" class=\"capacity-table-iterations\" id=\"capacity-table-" . $iteration . "\">";
           echo "<tr>";
           echo "<td width=\"25%\" style=\"vertical-align: bottom; font-weight: bold;
