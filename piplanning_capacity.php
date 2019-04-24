@@ -109,7 +109,6 @@
             AND program_increment='".$program_increment."';";
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
-
     } else {
       $default_data = true;
       $default_total = 0;
@@ -267,18 +266,35 @@
       </table>
 
       <?php
+
         for ($it = 1; $it <= 6; $it++) {
-          $iteration = str_replace('PI-', '', $program_increment). "-" . $it;
+          // Check if a program increment id was selected
+          // Use current/next increment otherwise
+          if (isset($_POST['programIID'])){
+            $iteration = str_replace('PI-', '', $_POST['programIID']). "-" . $it;
+          } else {
+            $iteration = str_replace('PI-', '', $program_increment). "-" . $it;
+          }
+          // Get duration
+          $sql5 = "SELECT * FROM `cadence`
+                   WHERE PI_id='" . $program_increment . "';";
+          $result5 = $db->query($sql5);
+          if ($result5->num_rows > 0) {
+              $row5 = $result5->fetch_assoc();
+              $duration = $row5["duration"];
+          }
           echo "<table width=\"95%\" class=\"capacity-table-iterations\" id=\"capacity-table-" . $iteration . "\">";
           echo "<tr>";
           echo "<td width=\"25%\" style=\"vertical-align: bottom; font-weight: bold;
                                   color: #01B0F1; line-height: 130%;
                                   font-size: 18px;\">";
           echo "Iteration (I): &emsp; <br/>";
+          echo "Duration: &emsp; <br/>";
           echo "</td>";
           echo "<td  style=\"vertical-align: bottom; font-weight: bold;
                             line-height: 130%;  font-size: 18px;\" width=\"25%\">";
           echo $iteration . "<br/>";
+          echo $duration . "<br/>";
           echo "</td>";
           echo "<td width=\"50%\"  style=\"font-weight: bold;\">";
           echo "<div style=\"float: right; margin-right: 10px; text-align: center; font-size: 12px;\">";
@@ -304,14 +320,6 @@
           echo "</thead>";
           echo "<tbody>";
           echo "</tr>";
-          // Get duration
-          $sql5 = "SELECT * FROM `cadence`
-                   WHERE PI_id='" . $program_increment . "';";
-          $result5 = $db->query($sql5);
-          if ($result5->num_rows > 0) {
-              $row5 = $result5->fetch_assoc();
-              $duration = $row5["duration"];
-          }
           if (isset($_POST['submit0'])) { // This is where it would be submitted to the database
             $iterationcapacity = 0;
             for ($x=0; $x < count($_POST['rownum']); $x++){
