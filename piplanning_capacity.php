@@ -167,30 +167,26 @@
           </td>
           <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
             <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
-            <?php
-              //$sql = "SELECT team_id, team_name FROM `capacity` where program_increment='".$program_increment."';";
-              $sql = "SELECT team_id, parent_name, team_name FROM `trains_and_teams`
-                      WHERE type='AT';";
-              $result = $db->query($sql);
-              if ($result->num_rows > 0) {
-                  while ($row = $result->fetch_assoc()) {
-                    if ( trim($selected_team) == trim($row["team_id"]) ) {
-                      echo '<option value="'.$row["team_id"].'" selected>'.$row["team_name"].'</option>';
-                    } else {
-                      echo '<option value="'.$row["team_id"].'">'.$row["team_name"].'</option>';
+              <?php
+                $sql = "SELECT team_id, parent_name, team_name FROM `trains_and_teams`
+                        WHERE type='AT';";
+                $result = $db->query($sql);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                      if ( trim($selected_team) == trim($row["team_id"]) ) {
+                        echo '<option value="'.$row["team_id"].'" selected>'.$row["team_name"].'</option>';
+                      } else {
+                        echo '<option value="'.$row["team_id"].'">'.$row["team_name"].'</option>';
+                      }
                     }
-                  }
-              }
+                }
               ?>
             </select>
 
-			 <select type="text" id="programIID" name="programIID" onchange="this.form.submit()" style="border: 0; text-align: left;" class="userInput">
-			<?php echo generate_pii_options(); ?>
-			</select><br>
-          </form><br/>
-          <?php
-           // echo "&nbsp;".$program_increment."<br/>";
-          ?>
+            <select type="text" id="programIID" name="programIID" onchange="this.form.submit()" style="border: 0; text-align: left;" class="userInput">
+              <?php echo generate_pii_options(); ?>
+            </select><br>
+            </form><br/>
           </td>
           <td width="50%"  style="font-weight: bold;">
             <?php
@@ -394,7 +390,7 @@
             </table>
             <input type=\"button\" id=\"capacity-button-blue\" name=\"generate\" value=\"Generate\">
             <input type=\"submit\" id=\"capacity-button-blue\" name=\"submit1\" value=\"Submit\">
-            <input type=\"button\" id=\"capacity-button-blue\" name=\"restore\" onclick =\"this.form.reset();\" value=\"Restore Defaults\">
+            <input type=\"button\" id=\"capacity-button-blue\" class=\"capacity-restore-button\" name=\"restore\" onclick =\"this.form.reset();\" value=\"Restore Defaults\">
             <input type=\"button\" id=\"capacity-button-blue\" name=\"showNext\" onclick=\"scrollWin();\" value=\"Show Next Iteration\">
             <input type=\"hidden\" name=\"current-team-selected\" value=\"". $selected_team ."?>\">
             <input type=\"hidden\" name=\"current-sequence\" value=\"". $sequence ."?>\">
@@ -428,10 +424,9 @@
         function autoForm() {
           document.getElementById('maincap').submit();
         }
-        function resetForm(form){
-          aotoLoad();
-          form.reset();
-        }
+        $(".capacity-restore-button").click(function(){
+          autoLoad();
+        });
         $(".capacity-table-iterations").bind("reset", function(){
           autoLoad();
         });
