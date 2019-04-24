@@ -118,9 +118,9 @@
       $result = $db->query($sql);
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-          if ($row["role"] == "Scrum Master (SM)") {
+          if ($row["role"] == "SM") {
             $velType = "SCRUM_MASTER_ALLOCATION";
-          } else if ($row["role"] == "Product Owner (PO)") {
+          } else if ($row["role"] == "PO") {
             $velType = "PRODUCT_OWNER_ALLOCATION";
           } else  {
             $velType = "AGILE_TEAM_MEMBER_ALLOCATION";
@@ -130,7 +130,7 @@
           $result2 = $db->query($sql2);
           if ($result2->num_rows > 0) {
               $row2 = $result2->fetch_assoc();
-              $default_total += $row2["value"];
+              $default_total += $row2["value"] * 8 / 100;
           }
         }
       }
@@ -419,11 +419,11 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('table.capacity-table').dataTable({
-                paging: false,
-                searching: false,
-                infoCallback: false
-            });
+          $('table.capacity-table').dataTable({
+              paging: false,
+              searching: false,
+              infoCallback: false
+          });
         });
         function autoForm() {
           document.getElementById('maincap').submit();
