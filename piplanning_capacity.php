@@ -143,6 +143,7 @@
             WHERE c.team_id = t.parent_name
             AND c.program_increment='".$program_increment."'
             AND t.type = 'AT'
+            ORDER BY team_id
             LIMIT 1;";
 
     $result = $db->query($sql);
@@ -161,18 +162,60 @@
         <tr>
           <td width="25%" style="vertical-align: top; font-weight: bold; color: #01B0F1; line-height: 130%; font-size: 18px;">
             <form method="post" action="#">
-            Team: &emsp; <br/>
+            Agile Release Train: &emsp;<br/>
+            Agile Team: &emsp; <br/>
             Program Increment (PI): &emsp; <br/>
-
           </td>
           <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
+            <!-- Train selection dropdown -->
+            <select name="select-train" onchange="this.form.submit()" style="border: 0; text-align: left;">
+              <?php
+                $art_sql = "SELECT DISTINCT t1.team_id, t1.team_name
+                            FROM `trains_and_teams` t1 JOIN `trains_and_teams` t2
+                            WHERE t2.team_id = t1.parent_name
+                            AND t1.type = 'ART'
+                            ORDER BY t1.team_name;";
+                $art_result = mysqli_query($db, $art_sql);
+                $is_first_train = false;
+                while($option = $art_result->fetch_assoc()){
+                  if(isset($_POST["select-train"]) && $option['team_id'] == $_POST["select-train"]){
+                    echo '<option value="'.$option['team_id'].'" selected>'.trim($option['team_name']).'</option>';
+                  } else {
+                    echo '<option value="'.$option['team_id'].'">'.trim($option['team_name']).'</option>';
+                  }
+                }
+              ?>
+            </select><br/>
+
+            <!-- Team selection dropdown -->
             <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
               <?php
-                $sql = "SELECT team_id, parent_name, team_name FROM `trains_and_teams`
-                        WHERE type='AT';";
-                $result = $db->query($sql);
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
+                $team_sql = "SELECT team_id, parent_name, team_name FROM `trains_and_teams`
+                        WHERE parent_name ='";
+                // $team_result = $db->prepare($team_sql);
+                if(isset($_POST['select-train'])){
+                  $team_sql .= $_POST['select-train'];
+                  // $team_result->bind_param('s', $_POST['select-train']);
+                  // echo "<option>".$_POST['select-train']."</option>";
+                } else {
+                  $default_train_sql =
+                  "SELECT t1.team_id, t1.team_name
+                   FROM `trains_and_teams` t1 JOIN `trains_and_teams` t2
+                   WHERE t2.team_id = t1.parent_name
+                   AND t1.type = 'ART'
+                   ORDER BY t1.team_name;";
+                  $default_train = mysqli_query($db, $default_train_sql);
+                  $default_train_result = $default_train->fetch_assoc();
+                  // echo "<option>".$default_train_result["team_id"]."</option>";
+                  // $team_result->bind_param('s', $default_train_result["team_id"]);
+                  $team_sql .= $default_train_result["team_id"];
+                }
+                $team_result = mysqli_query($db, $team_sql.="'");
+                // $team_result->execute();
+                // echo $team_result->get_result();
+                if ($team_result->num_rows > 0) {
+                    while ($row = $team_result->fetch_assoc()) {
+                      // echo "<h1>".$row["team_id"]."</h1>";
                       if ( trim($selected_team) == trim($row["team_id"]) ) {
                         echo '<option value="'.$row["team_id"].'" selected>'.$row["team_name"].'</option>';
                       } else {
@@ -181,8 +224,9 @@
                     }
                 }
               ?>
-            </select>
+            </select><br/>
 
+            <!-- Program increment dropdown -->
             <select type="text" id="programIID" name="programIID" onchange="this.form.submit()" style="border: 0; text-align: left;" class="userInput">
               <?php echo generate_pii_options(); ?>
             </select><br>

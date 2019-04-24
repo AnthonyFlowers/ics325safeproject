@@ -402,7 +402,6 @@ function get_teams_by_type($type){
   $art_result = $db->prepare($sql);
   $art_result->bind_param("ss", $type, $GLOBALS['curPIID']);
   $art_result->execute();
-  // $art_result = mysqli_query($db, $sql);
   $_SESSION['curPIID'] = $GLOBALS['curPIID'];
   return $art_result->get_result();
 }
