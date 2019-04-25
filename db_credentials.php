@@ -15,4 +15,9 @@ DEFINE('DB_PASS', '');
 // DEFINE('DB_USER', 'root');
 // DEFINE('DB_PASS', '');
 
+// DEFINE('DB_SERVER', 'localhost');
+// DEFINE('DB_NAME', 'ics325safedb-alligators');
+// DEFINE('DB_USER', 'root');
+// DEFINE('DB_PASS', '');
+
 ?>
