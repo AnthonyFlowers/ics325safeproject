@@ -429,6 +429,26 @@
               searching: false,
               infoCallback: false
           });
+          $('table.capacity-table').dataTable({
+              paging: false,
+              searching: false,
+              infoCallback: false
+          });
+          $('table.capacity-table').dataTable({
+              paging: false,
+              searching: false,
+              infoCallback: false
+          });
+          $('table.capacity-table').dataTable({
+              paging: false,
+              searching: false,
+              infoCallback: false
+          });
+          $('table.capacity-table').dataTable({
+              paging: false,
+              searching: false,
+              infoCallback: false
+          });
         });
         function autoForm() {
           document.getElementById('maincap').submit();
