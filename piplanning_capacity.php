@@ -312,7 +312,7 @@
               $overhead_percentage = $row6["value"];
           }
           $sql = "SELECT * FROM `capacity` c JOIN `trains_and_teams` t
-                  WHERE c.team_id = t.parent_name
+                  WHERE c.team_name = t.team_name
                   AND program_increment='".$program_increment."'
                   AND t.team_id='".$selected_team."'";
           $result = $db->query($sql);
