@@ -72,7 +72,7 @@
       }
     }
     $sql = "SELECT * FROM `capacity`
-            WHERE team_id='".$selected_team."'
+            WHERE team_name='".$selected_team."'
             AND program_increment='".$program_increment."';";
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
@@ -137,9 +137,9 @@
   }
   // Set default selected_team
   if (!isset($_POST['select-team']) && !isset($_POST['current-team-selected'])) {
-    $sql = "SELECT t.team_id
+    $sql = "SELECT t.team_name
             FROM `capacity` c JOIN `trains_and_teams` t
-            WHERE c.team_id = t.parent_name
+            WHERE c.team_id = t.team_id
             AND c.program_increment='".$program_increment."'
             AND t.type = 'AT'
             LIMIT 1;";
@@ -147,7 +147,37 @@
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
       $row = $result->fetch_assoc();
-      $selected_team = $row["team_id"];
+      $selected_team = $row["team_name"];
+    }
+    $sql = "SELECT * FROM `capacity`
+            WHERE team_id='".$selected_team."'
+            AND program_increment='".$program_increment."';";
+    $result = $db->query($sql);
+    if ($result->num_rows > 0) {
+    } else {
+      $default_data = true;
+      $default_total = 0;
+      $sql = "SELECT * FROM `membership`
+              WHERE team_name='".$selected_team."';";
+      $result = $db->query($sql);
+      if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+          if ($row["role"] == "SM") {
+            $velType = "SCRUM_MASTER_ALLOCATION";
+          } else if ($row["role"] == "PO") {
+            $velType = "PRODUCT_OWNER_ALLOCATION";
+          } else  {
+            $velType = "AGILE_TEAM_MEMBER_ALLOCATION";
+          }
+          $sql2 = "SELECT * FROM `preferences`
+                   WHERE name='".$velType."';";
+          $result2 = $db->query($sql2);
+          if ($result2->num_rows > 0) {
+              $row2 = $result2->fetch_assoc();
+              $default_total += $row2["value"] * 8 / 100;
+          }
+        }
+      }
     }
   }
   ?>
@@ -162,21 +192,22 @@
             <form method="post" action="#">
             Team: &emsp; <br/>
             Program Increment (PI): &emsp; <br/>
+			Agile Release Train (ART): &emsp;<br/>
 
           </td>
           <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
             <!-- Team Select Dropdown -->
             <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
               <?php
-                $sql = "SELECT team_id, parent_name, team_name FROM `trains_and_teams`
+                $sql = "SELECT team_name FROM `trains_and_teams`
                         WHERE type='AT';";
                 $result = $db->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                      if ( trim($selected_team) == trim($row["team_id"]) ) {
-                        echo '<option value="'.$row["team_id"].'" selected>'.$row["team_name"].'</option>';
+                      if ( trim($selected_team) == trim($row["team_name"]) ) {
+                        echo '<option value="'.$row["team_name"].'" selected>'.$row["team_name"].'</option>';
                       } else {
-                        echo '<option value="'.$row["team_id"].'">'.$row["team_name"].'</option>';
+                        echo '<option value="'.$row["team_name"].'">'.$row["team_name"].'</option>';
                       }
                     }
                 }
@@ -186,6 +217,21 @@
             <select type="text" id="programIID" name="programIID" onchange="this.form.submit()" style="border: 0; text-align: left;" class="userInput">
               <?php echo generate_pii_options(); ?>
             </select><br>
+			
+			<!-- Agile Release Train <ART> Dropdown -->
+			
+			<select type="text" id="agileRT" name="agileRT" class="userInput" onchange="this.form.submit()" style="border: 0; text-align: left;">
+			
+			<?php
+			$sql = mysqli_query($connection, "SELECT parent_name From trains_and_teams");
+			$row = mysqli_num_rows($sql);
+			while ($row = mysqli_fetch_array($sql)){
+			echo "<option value='". $row['parent_name'] ."'>" .$row['parent_name'] ."</option>" ;
+			}
+			?>
+		
+			</select><br>
+			
             </form><br/>
           </td>
           <td width="50%"  style="font-weight: bold;">
@@ -221,7 +267,6 @@
           </td>
         </tr>
       </table>
-
       <?php
 
         for ($it = 1; $it <= 6; $it++) {
@@ -240,7 +285,7 @@
               $row5 = $result5->fetch_assoc();
               $duration = $row5["duration"];
           }
-          echo "<table width=\"95%\" class=\"capacity-table-iterations\" id=\"capacity-table-" . $iteration . "\">";
+          echo "<table width=\"95%\" class=\"capacity-table-iterations\" id=\"capacity-table" . $iteration . "\">";
           echo "<tr>";
           echo "<td width=\"25%\" style=\"vertical-align: bottom; font-weight: bold;
                                   color: #01B0F1; line-height: 130%;
@@ -340,7 +385,7 @@
                   AND team_name='".$selected_team."';";
           $result = $db->query($sql);
           $rownum = 0;
-          // echo "<h1>" . $selected_team . "</h1>";
+          echo "<h1>" . $selected_team . "</h1>";
           while ($row = $result->fetch_assoc()) { // Add team members to table
             if (strpos($row["role"], "SM") !== false) {
               $velocityType = "SCRUM_MASTER_ALLOCATION";
@@ -423,13 +468,16 @@
 </div>
 
     <script type="text/javascript">
-        $(document).ready(function () {
-          $('table.capacity-table').dataTable({
+	
+       $(document).ready(function() {   
+       $(".capacity-table").DataTable({
               paging: false,
               searching: false,
-              infoCallback: false
           });
+		  
         });
+		
+	
         function autoForm() {
           document.getElementById('maincap').submit();
         }
@@ -469,6 +517,8 @@
           });
           document.getElementsByName("totalcap")[0].innerHTML = tcap;
         }
+		
     </script>
 
 <?php include("./footer.php"); ?>
+
