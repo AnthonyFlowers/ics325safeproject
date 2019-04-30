@@ -184,18 +184,32 @@
 
 <div class="right-content">
     <div class="container">
-
+      <form method="post" action="#">
       <h3 style=" color: #01B0F1; font-weight: bold;">Capacity Calculations for the Agile Team</h3>
       <table width="95%">
         <tr>
           <td width="25%" style="vertical-align: top; font-weight: bold; color: #01B0F1; line-height: 130%; font-size: 18px;">
-            <form method="post" action="#">
+
+            Agile Release Train (ART): &emsp;<br/>
             Team: &emsp; <br/>
             Program Increment (PI): &emsp; <br/>
-			Agile Release Train (ART): &emsp;<br/>
+
 
           </td>
           <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
+
+            <!-- Agile Release Train <ART> Dropdown -->
+            <select type="text" id="agileRT" name="agileRT" class="userInput" onchange="this.form.submit()" style="border: 0; text-align: left;">
+              <?php
+                $sql = mysqli_query($db, "SELECT parent_name, team_name From trains_and_teams
+                                          WHERE type='ART'");
+                $row = mysqli_num_rows($sql);
+                while ($row = mysqli_fetch_array($sql)){
+                  echo "<option value='". $row['parent_name'] ."'>" .$row['team_name'] ."</option>" ;
+                }
+              ?>
+            </select><br>
+
             <!-- Team Select Dropdown -->
             <select name="select-team" onchange="this.form.submit()" style="border: 0; text-align: left;">
               <?php
@@ -212,27 +226,13 @@
                     }
                 }
               ?>
-            </select>
+            </select><br/>
+
             <!-- Program Increment Dropdown -->
             <select type="text" id="programIID" name="programIID" onchange="this.form.submit()" style="border: 0; text-align: left;" class="userInput">
               <?php echo generate_pii_options(); ?>
             </select><br>
-			
-			<!-- Agile Release Train <ART> Dropdown -->
-			
-			<select type="text" id="agileRT" name="agileRT" class="userInput" onchange="this.form.submit()" style="border: 0; text-align: left;">
-			
-			<?php
-			$sql = mysqli_query($connection, "SELECT parent_name From trains_and_teams");
-			$row = mysqli_num_rows($sql);
-			while ($row = mysqli_fetch_array($sql)){
-			echo "<option value='". $row['parent_name'] ."'>" .$row['parent_name'] ."</option>" ;
-			}
-			?>
-		
-			</select><br>
-			
-            </form><br/>
+
           </td>
           <td width="50%"  style="font-weight: bold;">
             <?php
@@ -385,7 +385,7 @@
                   AND team_name='".$selected_team."';";
           $result = $db->query($sql);
           $rownum = 0;
-          echo "<h1>" . $selected_team . "</h1>";
+          // echo "<h1>" . $selected_team . "</h1>";
           while ($row = $result->fetch_assoc()) { // Add team members to table
             if (strpos($row["role"], "SM") !== false) {
               $velocityType = "SCRUM_MASTER_ALLOCATION";
@@ -442,7 +442,6 @@
             <tfoot>
             </tfoot>
             </table>
-            <input type=\"button\" id=\"capacity-button-blue\" name=\"generate\" value=\"Generate\">
             <input type=\"submit\" id=\"capacity-button-blue\" name=\"submit1\" value=\"Submit\">
             <input type=\"button\" id=\"capacity-button-blue\" class=\"capacity-restore-button\" name=\"restore\" onclick =\"this.form.reset();\" value=\"Restore Defaults\">
             <input type=\"button\" id=\"capacity-button-blue\" name=\"showNext\" onclick=\"scrollWin();\" value=\"Show Next Iteration\">
@@ -463,21 +462,19 @@
           <li>Capacity > Summary > By clicking on one of the numbers</li>
         </ul>
       </div>
+      </form>
 
   </div>  <!-- End of containing div -->
 </div>
 
     <script type="text/javascript">
-	
-       $(document).ready(function() {   
-       $(".capacity-table").DataTable({
-              paging: false,
-              searching: false,
+
+       $(document).ready(function() {
+         $(".capacity-table").DataTable({
+                paging: false,
+                searching: false,
           });
-		  
         });
-		
-	
         function autoForm() {
           document.getElementById('maincap').submit();
         }
@@ -517,8 +514,7 @@
           });
           document.getElementsByName("totalcap")[0].innerHTML = tcap;
         }
-		
+
     </script>
 
 <?php include("./footer.php"); ?>
-
