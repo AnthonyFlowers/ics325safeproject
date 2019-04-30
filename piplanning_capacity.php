@@ -180,6 +180,70 @@
       }
     }
   }
+  if (isset($_POST['submit0'])) { // This is where it would be submitted to the database
+    $pi = "PI-" . $_POST['programIID'];
+    $team = $_POST['select-team'];
+    $iteration1 = $_POST['iteration-1'];
+    $iteration2 = $_POST['iteration-2'];
+    $iteration3 = $_POST['iteration-3'];
+    $iteration4 = $_POST['iteration-4'];
+    $iteration5 = $_POST['iteration-5'];
+    $iteration6 = $_POST['iteration-6'];
+    $total_cap = $iteration1 + $iteration2 +
+    $iteration3 + $iteration4 + $iteration5 +
+    $iteration6;
+
+    // echo $pi . "<br/>";
+    // echo $team . "<br/>";
+    // echo $iteration1 . "<br/>";
+    // echo $iteration2 . "<br/>";
+    // echo $iteration3 . "<br/>";
+    // echo $iteration4 . "<br/>";
+    // echo $iteration5 . "<br/>";
+    // echo $iteration6 . "<br/>";
+    // echo $total_cap . "<br/>";
+
+    $update_iteration_sql =
+    "UPDATE `capacity`
+     SET iteration_1 = ?,
+         iteration_2 = ?,
+         iteration_3 = ?,
+         iteration_4 = ?,
+         iteration_5 = ?,
+         iteration_6 = ?,
+         total = ?
+     WHERE team_name = ?
+     AND program_increment = ?";
+    $update_statement = $db->prepare($update_iteration_sql);
+    $update_statement->bind_param("iiiiiiiss", $iteration1, $iteration2,
+    $iteration3, $iteration4, $iteration5, $iteration6, $total_cap, $team, $pi);
+    $update_statement->execute();
+    // $iterationcapacity = 0;
+    // for ($x=0; $x < count($_POST['rownum']); $x++){
+    //   $teamcapacity[$_POST['rownum'][$x]] = round(($duration-$_POST['daysoff'][$x])*((100-$overhead_percentage)/100)*($_POST['velocity'][$x]/100));
+    //   $iterationcapacity += $teamcapacity[$_POST['rownum'][$x]];
+    //   $daysoff[$_POST['rownum'][$x]] = $_POST['daysoff'][$x];
+    //   $velocity[$_POST['rownum'][$x]] = $_POST['velocity'][$x];
+    // }
+    // $sqliter = "UPDATE `capacity` SET iteration_".substr($iteration, -1)."='".$iterationcapacity."' WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."';";
+    // $result_iter = $db->query($sqliter);
+    // $sqlinc = "SELECT (iteration_1 + iteration_2 + iteration_3 + iteration_4 + iteration_5 + iteration_6) as new_total FROM `capacity` WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."';";
+    // $result_inc = $db->query($sqlinc);
+    // if ($result_inc->num_rows > 0) {
+    //     $rowinc = $result_inc->fetch_assoc();
+    //     $pi_capacity = $rowinc["new_total"];
+    //   }
+    // $sqlup = "UPDATE `capacity` SET total='$pi_capacity' WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."';";
+    // $result_up = $db->query($sqlup);
+    // // keep velocity and days off value changes
+    // $iterationcapacity = 0;
+    // for ($x=0; $x < count($_POST['rownum']); $x++){
+    //   $teamcapacity[$_POST['rownum'][$x]] = round(($duration-$_POST['daysoff'][$x])*((100-$overhead_percentage)/100)*($_POST['velocity'][$x]/100));
+    //   $iterationcapacity += $teamcapacity[$_POST['rownum'][$x]];
+    //   $daysoff[$_POST['rownum'][$x]] = $_POST['daysoff'][$x];
+    //   $velocity[$_POST['rownum'][$x]] = $_POST['velocity'][$x];
+    // }
+  }
   ?>
 
 <div class="right-content">
@@ -193,7 +257,6 @@
             Agile Release Train (ART): &emsp;<br/>
             Team: &emsp; <br/>
             Program Increment (PI): &emsp; <br/>
-
 
           </td>
           <td  style="vertical-align: top; font-weight: bold; line-height: 130%;  font-size: 18px;" width="25%">
@@ -307,7 +370,6 @@
           echo "</tr>";
           echo "<tr>";
           echo "<td colspan=\"3\">";
-          echo "<form method=\"post\" action=\"#\" id=\"maincap\">";
           echo "<table cellpadding=\"2px\" cellspacing=\"0\"
           border=\"0\" class=\"capacity-table info\" width=\"100%\" style=\"width: 100%;
           clear: both; font-size: 15px; margin: 8px 0 15px 0\">";
@@ -321,34 +383,9 @@
           echo "<th id=\"capacity-table-td\">Story Points</th>";
           echo "</thead>";
           echo "<tbody>";
+          echo "<input class='iteration-value' name='iteration-".$it."' value='".$icapacity."' hidden>";
           echo "</tr>";
-          if (isset($_POST['submit0'])) { // This is where it would be submitted to the database
-            $iterationcapacity = 0;
-            for ($x=0; $x < count($_POST['rownum']); $x++){
-              $teamcapacity[$_POST['rownum'][$x]] = round(($duration-$_POST['daysoff'][$x])*((100-$overhead_percentage)/100)*($_POST['velocity'][$x]/100));
-              $iterationcapacity += $teamcapacity[$_POST['rownum'][$x]];
-              $daysoff[$_POST['rownum'][$x]] = $_POST['daysoff'][$x];
-              $velocity[$_POST['rownum'][$x]] = $_POST['velocity'][$x];
-            }
-            $sqliter = "UPDATE `capacity` SET iteration_".substr($iteration, -1)."='".$iterationcapacity."' WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."';";
-            $result_iter = $db->query($sqliter);
-            $sqlinc = "SELECT (iteration_1 + iteration_2 + iteration_3 + iteration_4 + iteration_5 + iteration_6) as new_total FROM `capacity` WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."';";
-            $result_inc = $db->query($sqlinc);
-            if ($result_inc->num_rows > 0) {
-                $rowinc = $result_inc->fetch_assoc();
-                $pi_capacity = $rowinc["new_total"];
-              }
-            $sqlup = "UPDATE `capacity` SET total='$pi_capacity' WHERE program_increment='".$program_increment."' AND team_id='".$selected_team."';";
-            $result_up = $db->query($sqlup);
-            // keep velocity and days off value changes
-            $iterationcapacity = 0;
-            for ($x=0; $x < count($_POST['rownum']); $x++){
-              $teamcapacity[$_POST['rownum'][$x]] = round(($duration-$_POST['daysoff'][$x])*((100-$overhead_percentage)/100)*($_POST['velocity'][$x]/100));
-              $iterationcapacity += $teamcapacity[$_POST['rownum'][$x]];
-              $daysoff[$_POST['rownum'][$x]] = $_POST['daysoff'][$x];
-              $velocity[$_POST['rownum'][$x]] = $_POST['velocity'][$x];
-            }
-          }
+
           $sql6 = "SELECT * FROM `preferences`
                    WHERE name='OVERHEAD_PERCENTAGE';";
           $result6 = $db->query($sql6);
@@ -442,12 +479,11 @@
             <tfoot>
             </tfoot>
             </table>
-            <input type=\"submit\" id=\"capacity-button-blue\" name=\"submit1\" value=\"Submit\">
+            <input type=\"submit\" id=\"capacity-button-blue\" name=\"submit0\" value=\"Submit\">
             <input type=\"button\" id=\"capacity-button-blue\" class=\"capacity-restore-button\" name=\"restore\" onclick =\"this.form.reset();\" value=\"Restore Defaults\">
             <input type=\"button\" id=\"capacity-button-blue\" name=\"showNext\" onclick=\"scrollWin();\" value=\"Show Next Iteration\">
             <input type=\"hidden\" name=\"current-team-selected\" value=\"". $selected_team ."?>\">
             <input type=\"hidden\" name=\"current-sequence\" value=\"". $sequence ."?>\">
-            </form>
             </td>
             </tr>
             </table>";
@@ -508,6 +544,8 @@
             }
             tcap += parseInt(icap);
             $(this).find("div[name='icap']")[0].innerHTML = icap;
+
+            $(this).find(".iteration-value").val(icap);
             // document.getElementsByName("icap")[0].innerHTML = icap;
             var capdiff = icap - icap_old;
             // var tcap = parseInt(capdiff) + parseInt(totalcap_old);
