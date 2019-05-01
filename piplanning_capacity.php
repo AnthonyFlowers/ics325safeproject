@@ -1,3 +1,4 @@
+
 <?php
   $nav_selected = "PIPLANNING";
   $left_buttons = "YES";
@@ -479,7 +480,7 @@
             <tfoot>
             </tfoot>
             </table>
-            <input type=\"submit\" id=\"capacity-button-blue\" name=\"submit0\" value=\"Submit\">
+            <input type=\"submit\" id=\"capacity-button-blue\" onclick=\"success();\" name=\"submit0\" value=\"Submit\">
             <input type=\"button\" id=\"capacity-button-blue\" class=\"capacity-restore-button\" name=\"restore\" onclick =\"this.form.reset();\" value=\"Restore Defaults\">
             <input type=\"button\" id=\"capacity-button-blue\" name=\"showNext\" onclick=\"scrollWin();\" value=\"Show Next Iteration\">
             <input type=\"hidden\" name=\"current-team-selected\" value=\"". $selected_team ."?>\">
