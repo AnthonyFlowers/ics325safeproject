@@ -429,4 +429,8 @@ function get_teams_by_parent_name($parent_name){
 function scrollWin() {
   window.scrollBy(0, 400);
 }
+
+function success() {
+  alert("Success!");
+}
 </script>
